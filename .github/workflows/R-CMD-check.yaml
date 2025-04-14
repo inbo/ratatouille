@@ -27,6 +27,8 @@ jobs:
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      RATO_USER: ${{ secrets.RATO_USER}}
+      RATO_PWD: ${{ secrets.RATO_PWD}}
       R_KEEP_PKG_SOURCE: yes
 
     steps:
