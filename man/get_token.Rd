@@ -5,8 +5,8 @@
 \title{Request an access token from the GIS API services}
 \usage{
 get_token(
-  username = "RATO_INBO",
-  password = Sys.getenv("ratopwd"),
+  username = Sys.getenv("RATO_USER"),
+  password = Sys.getenv("RATO_PWD"),
   expires = 5
 )
 }
@@ -21,5 +21,9 @@ get_token(
 Character. An access token for future API calls.
 }
 \description{
-Request an access token from the GIS API services
+The credentials are stored in your .Renviron file under \code{RATO_USER} and
+\code{RATO_PWD}. If you haven't stored them there already the function will prompt
+you for them and store them in these environmental variables. To reset any
+stored values,  pass emtpy strings \code{""} to either the \code{username} or
+\code{password} arguments.
 }
