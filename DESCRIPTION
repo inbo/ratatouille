@@ -16,13 +16,13 @@ Description: This repository contains the functionality to access the
     instance. Credentials are required to access this data.
 License: MIT + file LICENSE
 Depends: 
-    R (>= 2.10)
+    R (>= 4.0)
 Imports: 
     askpass,
     assertthat,
     curl,
     glue,
-    httr2,
+    httr2 (>= 1.1.1),
     magrittr,
     purrr
 Suggests: 
