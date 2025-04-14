@@ -32,7 +32,7 @@ get_token <- function(username = Sys.getenv("RATO_USER"),
     httr2::req_url_path("portal", "sharing", "rest", "generateToken") %>%
     httr2::req_body_form(
       username = username,
-      password = Sys.getenv("ratopwd"),
+      password = password,
       # NOTE MUST USE CLIENT `referer`, otherwise you'll get a token but it will
       # not work!
       client = "referer",
