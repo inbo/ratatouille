@@ -1,5 +1,11 @@
 #' Request an access token from the GIS API services
 #'
+#' The credentials are stored in your .Renviron file under `RATO_USER` and
+#' `RATO_PWD`. If you haven't stored them there already the function will prompt
+#' you for them and store them in these environmental variables. To reset any
+#' stored values,  pass emtpy strings `""` to either the `username` or
+#' `password` arguments.
+#'
 #' @param username ArcGIS Enterprise username
 #' @param password ArcGIS Enterprise password
 #' @param expires In minutes, how long should the token remain valid?
@@ -7,16 +13,17 @@
 #' @return Character. An access token for future API calls.
 #'
 #' @export
-get_token <- function(username = "RATO_INBO",
-                      password = Sys.getenv("ratopwd"),
+get_token <- function(username = Sys.getenv("RATO_USER"),
+                      password = Sys.getenv("RATO_PWD"),
                       expires = 5) {
   # Check that username and password are strings if provided
   assertthat::assert_that(assertthat::is.string(username))
   assertthat::assert_that(assertthat::is.string(password))
 
   # If the pwd variable isn't set, prompt for password when session interactive
-  if (password == "") {
-    Sys.setenv(ratopwd = askpass::askpass())
+  if (password == "" | username == "") {
+    Sys.setenv(RATO_USER = readline(prompt = "Please enter your RATO username: "))
+    Sys.setenv(RATO_PWD = askpass::askpass())
   }
 
   # Build request for the API
