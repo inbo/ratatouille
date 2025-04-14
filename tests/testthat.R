@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(rato.occurrences)
+library(rato.data)
 
-test_check("rato.occurrences")
+test_check("rato.data")
