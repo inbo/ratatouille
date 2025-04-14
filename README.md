@@ -1,59 +1,41 @@
 <!-- badges: start -->
 [![funding](https://img.shields.io/static/v1?label=published+through&message=LIFE+RIPARIAS&labelColor=00a58d&color=ffffff)](https://www.riparias.be/)
-[![fetch-data](https://github.com/riparias/rato-occurrences/actions/workflows/fetch-data.yaml/badge.svg)](https://github.com/riparias/rato-occurrences/actions/workflows/fetch-data.yaml)
-[![mapping and testing](https://github.com/riparias/rato-occurrences/actions/workflows/mapping_and_testing.yaml/badge.svg)](https://github.com/riparias/rato-occurrences/actions/workflows/mapping_and_testing.yaml)
-[![R-CMD-check](https://github.com/riparias/rato-occurrences/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/riparias/rato-occurrences/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/inbo/rato-data/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/inbo/rato-data/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/inbo/rato-data/graph/badge.svg)](https://app.codecov.io/gh/inbo/rato-data)
 <!-- badges: end -->
 
 ## Rationale
 
-This repository contains the functionality to standardize the occurrences data of [RATO vzw](https://oost-vlaanderen.be/wonen-en-leven/natuur-en-milieu/overlastsoorten/rattenbestrijding-.html) to a [Darwin Core Archive](https://ipt.gbif.org/manual/en/ipt/2.5/dwca-guide) that can be harvested by a [GBIF IPT](https://ipt.gbif.org/manual/en/ipt/2.5/).
+This repository contains the functionality to access the unprocessed data of 
+[RATO vzw](https://oost-vlaanderen.be/wonen-en-leven/natuur-en-milieu/overlastsoorten/rattenbestrijding-.html) 
+via an API call to an [ESRI ArcGIS instance](https://developers.arcgis.com/documentation/).
+Credentials are required to access this data. These credentials are stored as a github secrets under the `RATO_USER` and `RATO_PWD` environmental parameters, and can be set locally by editing the `.Renviron` file.
 
-## Workflow
+## Set Up your RATO credentials locally
 
-fetch data from WFS → save them as local source data → Darwin Core [mapping script](src/dwc_mapping.Rmd) → generated [Darwin Core files](data/processed)
+The easiest way to store the required username and password necessary to access the RATO database is by storing them in your `.Renviron` file. An easy way to edit this file is by using a function from [the usethis package](https://usethis.r-lib.org/). 
 
+```r
+install.packages("usethis")
+usethis::edit_r_environ()
+```
 
-## Published dataset
-
-* [Dataset on the IPT](https://ipt.inbo.be/resource?r=rato-occurrences)
-* [Dataset on GBIF](https://doi.org/10.15468/fw2rbx)
-
-## Repo structure
-
-The repository structure is based on [Cookiecutter Data Science](http://drivendata.github.io/cookiecutter-data-science/) and the [Checklist recipe](https://github.com/trias-project/checklist-recipe). Files and directories indicated with `GENERATED` should not be edited manually.
+The contents of the file may contain other secrets or settings used by other scripts or packages, but can be edited to have lines like:
 
 ```
-├── README.md              : Description of this repository
-├── LICENSE                : Repository license
-├── rato-occurrences.Rproj : RStudio project file
-├── .gitignore             : Files and directories to be ignored by git
-│
-├── .github                
-│   ├── PULL_REQUEST_TEMPLATE.md : Pull request template
-│   └── workflows
-│   │   ├── fetch-data.yaml    : GitHub action to fetch raw data
-│   │   └── mapping_and_testing.yaml : GitHub action to map data to DwC and perform some tests on the Dwc output
-|
-├── src
-│   ├── fetch_data.Rmd     : Fetching data script
-│   ├── dwc_mapping.Rmd    : Darwin Core mapping script
-│   ├── run_fetch_data.R   : R script to run code in fetch_data.Rmd in an automatic way within a GitHub action
-│   ├── run_dwc_mapping.R  : R script to run code in dcw_mapping.Rmd in an automatic way within a GitHub action
-|
-└── data
-│   └── processed          : Darwin Core output of mapping script GENERATED
+RATO_USER = "RATO_INBO"
+RATO_PWD = "a super fake password that should be replaced by your real one"
 ```
+
+After restarting your R instance you should be able to fetch data from the RATO database without being prompted for your credentials.
+
 
 ## Installation
 
-1. Clone this repository to your computer
-2. Open the RStudio project file
-3. Run `devtools::install()` to install any required packages
-4. Open `fetch_data.Rmd` [R Markdown file](https://rmarkdown.rstudio.com/) in RStudio to fetch data manually
-5. Open the `dwc_mapping.Rmd` [R Markdown file](https://rmarkdown.rstudio.com/) in RStudio to map data to DwC manually
-6. Click `Run > Run All` to generate the processed data
+```r
+pak::pkg_install("inbo/rato-data")
 
+```
 ## License
 
-[MIT License](LICENSE) for the code and documentation in this repository. The included data is released under another license.
+[MIT License](LICENSE) for the code and documentation in this repository. The fetched data is released under another license.
