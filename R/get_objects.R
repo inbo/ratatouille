@@ -13,7 +13,7 @@ get_objects <- function(object_ids, token = get_token()) {
   object_id_query <- glue::glue(
     "OBJECTID IN ({object_ids_collated})",
     object_ids_collated = glue::glue_collapse(object_ids,
-                                              sep = ","
+      sep = ","
     )
   ) %>%
     curl::curl_escape()
@@ -21,11 +21,13 @@ get_objects <- function(object_ids, token = get_token()) {
   # Build request for the API
   objects_request <-
     httr2::request("https://gis.oost-vlaanderen.be/server/rest/services/") %>%
-    httr2::req_url_path_append("RATO2",
-                               "RATO2_Dossiers_Publiek",
-                               "MapServer",
-                               "0",
-                               glue::glue("query?where={object_id_query}")) %>%
+    httr2::req_url_path_append(
+      "RATO2",
+      "RATO2_Dossiers_Publiek",
+      "MapServer",
+      "0",
+      glue::glue("query?where={object_id_query}")
+    ) %>%
     httr2::req_url_query(
       outFields = "*",
       f = "json",
@@ -50,6 +52,16 @@ get_objects <- function(object_ids, token = get_token()) {
   objects_response %>%
     purrr::chuck("features") %>%
     purrr::map(~ purrr::pluck(.x, "attributes")) %>%
-    purrr::map_dfr(~.x) %>%
+    # Convert every record in a single row data.frame, replace NULL with NA
+    purrr::map(~ as.data.frame(
+      purrr::map(
+        .x,
+        \(field_value) {
+          ifelse(is.null(field_value), NA, field_value)
+        }
+      )
+    )) %>%
+    # Combine all the data.frames together so we have one row per record
+    purrr::list_rbind() %>%
     return()
 }
