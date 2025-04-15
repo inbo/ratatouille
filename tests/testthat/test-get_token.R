@@ -17,3 +17,18 @@ test_that("get_token() returns token with correct credentials", {
   )
   
 })
+
+test_that("get_token() can cache a token",{
+  expect_identical(
+    get_token(expires = 1, cache = TRUE),
+    get_token(expires = 1, cache = TRUE)
+  )
+})
+
+test_that("get_token() regenerates token when requested even if cache exists",{
+  expect_no_match(
+    get_token(expires = 1, cache = TRUE),
+    regexp = get_token(expires = 1, cache = FALSE),
+    fixed = TRUE
+  )
+})

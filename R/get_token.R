@@ -9,13 +9,16 @@
 #' @param username ArcGIS Enterprise username
 #' @param password ArcGIS Enterprise password
 #' @param expires In minutes, how long should the token remain valid?
+#' @param cache Logical. Should the token be cached? If set to `TRUE`, the token will
+#' be cached for the duration of the `expires` argument in minutes.
 #'
 #' @return Character. An access token for future API calls.
 #'
 #' @export
 get_token <- function(username = Sys.getenv("RATO_USER"),
                       password = Sys.getenv("RATO_PWD"),
-                      expires = 5) {
+                      expires = 5,
+                      cache = TRUE) {
   # Check that username and password are strings if provided
   assertthat::assert_that(assertthat::is.string(username))
   assertthat::assert_that(assertthat::is.string(password))
@@ -41,11 +44,25 @@ get_token <- function(username = Sys.getenv("RATO_USER"),
       f = "json"
     )
 
+  # Setup caching if requested
+
+  if (cache) {
+    token_request <-
+      token_request %>%
+      httr2::req_cache(
+        path = file.path(tools::R_user_dir("rato.data", "cache"), "httr2"),
+        max_age = expires * 60, # expires is in minutes, max_age in seconds
+        max_n = 2, # only store one token at most
+        use_on_error = FALSE, # don't use the cache if a new token request fails,
+        debug = TRUE
+      )
+  }
+
   # Parse the API response
   token_response <-
     token_request %>%
-    httr2::req_perform() %>%
-    httr2::resp_body_json()
+      httr2::req_perform() %>%
+      httr2::resp_body_json()
 
   # If unable to login, reset the password so one is requested next time.
   if (
@@ -53,14 +70,16 @@ get_token <- function(username = Sys.getenv("RATO_USER"),
   ) {
     Sys.setenv(ratopwd = "")
     stop(
-      glue::glue(purrr::chuck(token_response, "error", "message"),
-                 purrr::map_chr(
-                   purrr::chuck(token_response, "error", "details"),
-                   ~.x)))
+      glue::glue(
+        purrr::chuck(token_response, "error", "message"),
+        purrr::map_chr(
+          purrr::chuck(token_response, "error", "details"),
+          ~.x
+        )
+      )
+    )
   } else {
     ## If there was no error, return the token
     return(token_response$token)
   }
-
-
 }
