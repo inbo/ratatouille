@@ -13,6 +13,10 @@ list_object_ids <- function(token = get_token()) {
                         "MapServer",
                         "0",
                         "query?where=1%3D1") %>%
+    httr2::req_cache(
+      debug = TRUE,
+      path = file.path(tools::R_user_dir("rato.data", "cache"), "httr2")
+    ) %>%
     httr2::req_url_query(
       returnIdsOnly = "true",
       f = "pjson",
