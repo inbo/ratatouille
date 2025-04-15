@@ -52,6 +52,7 @@ get_objects <- function(object_ids, token = get_token()) {
   objects_response %>%
     purrr::chuck("features") %>%
     purrr::map(~ purrr::pluck(.x, "attributes")) %>%
+    # Convert every record in a single row data.frame, replace NULL with NA
     purrr::map(~ as.data.frame(
       purrr::map(
         .x,
@@ -60,6 +61,7 @@ get_objects <- function(object_ids, token = get_token()) {
         }
       )
     )) %>%
+    # Combine all the data.frames together so we have one row per record
     purrr::list_rbind() %>%
     return()
 }
