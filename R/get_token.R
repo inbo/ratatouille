@@ -21,7 +21,7 @@ get_token <- function(username = Sys.getenv("RATO_USER"),
   assertthat::assert_that(assertthat::is.string(password))
 
   # If the pwd variable isn't set, prompt for password when session interactive
-  if (password == "" | username == "") {
+  if (password == "" || username == "") {
     Sys.setenv(RATO_USER = readline(prompt = "Please enter your RATO username: "))
     Sys.setenv(RATO_PWD = askpass::askpass())
   }
