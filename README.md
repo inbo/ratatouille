@@ -1,5 +1,4 @@
 <!-- badges: start -->
-[![funding](https://img.shields.io/static/v1?label=published+through&message=LIFE+RIPARIAS&labelColor=00a58d&color=ffffff)](https://www.riparias.be/)
 [![R-CMD-check](https://github.com/inbo/rato-data/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/inbo/rato-data/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/inbo/rato-data/graph/badge.svg)](https://app.codecov.io/gh/inbo/rato-data)
 <!-- badges: end -->
