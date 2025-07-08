@@ -162,5 +162,8 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "15.717KB"
+  "fileSize": "15.717KB",
+  "codeRepository": "https://github.com/inbo/rato-data",
+  "readme": "https://github.com/inbo/rato-data/blob/main/README.md",
+  "contIntegration": ["https://github.com/inbo/rato-data/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/inbo/rato-data"]
 }
