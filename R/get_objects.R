@@ -68,7 +68,9 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
   # Parse the response
   objects_response <-
     objects_requests %>%
-    httr2::req_perform_parallel() %>%
+    httr2::req_perform_parallel(
+      progress = "Fetching"
+    ) %>%
     purrr::map(httr2::resp_body_json)
 
   # Forward any error messages
