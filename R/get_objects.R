@@ -59,8 +59,11 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
           token = token_to_use
         )
     }) %>%
-    # Set capacity of API: handle capacity outstanding requests, then wait for requests to finish
-    purrr::map(~ httr2::req_throttle(.x, capacity = 5000))
+    # Set capacity of API: handle capacity outstanding requests, then wait for
+    # requests to finish
+    purrr::map(~ httr2::req_throttle(.x, capacity = 5000)) %>% 
+    # max_tries needs to be 2 for req_parallel
+    purrr::map(~ httr2::req_retry(.x, max_tries = 2)) 
 
   # Parse the response
   objects_response <-
