@@ -24,34 +24,44 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
       "this may result in timeouts or errors."
     ))
   }
-  # Collate the object id's to query and format them as expected for the API
-  object_id_query <- glue::glue(
-    "OBJECTID IN ({object_ids_collated})",
-    object_ids_collated = glue::glue_collapse(object_ids, sep = ",")
-  ) %>%
-    curl::curl_escape()
 
-  # Build request for the API
-  objects_request <-
-    httr2::request("https://gis.oost-vlaanderen.be/server/rest/services/") %>%
-    httr2::req_url_path_append(
-      "RATO2",
-      "RATO2_Dossiers_Publiek",
-      "MapServer",
-      "0",
-      glue::glue("query?where={object_id_query}")
-    ) %>%
-    httr2::req_url_query(
-      outFields = "*",
-      f = "json",
-      token = token
-    )
+  # Split requested object_ids into batches
+  batched_ids <- split(all_object_ids, ceiling(seq_along(all_object_ids) / batch_size))
+
+
+
+  # Build requests for the API
+  objects_requests <-
+    purrr::map(batched_ids, \(ids, token_to_use = token){
+      # Collate the object id's to query and format them as expected for the API
+      object_id_query <- glue::glue(
+        "OBJECTID IN ({object_ids_collated})",
+        object_ids_collated = glue::glue_collapse(ids, sep = ",")
+      ) %>%
+        curl::curl_escape()
+
+      httr2::request("https://gis.oost-vlaanderen.be/server/rest/services/") %>%
+        httr2::req_url_path_append(
+          "RATO2",
+          "RATO2_Dossiers_Publiek",
+          "MapServer",
+          "0",
+          glue::glue("query?where={object_id_query}")
+        ) %>%
+        httr2::req_url_query(
+          outFields = "*",
+          f = "json",
+          token = token_to_use
+        )
+    }) %>%
+    # Set capacity of API: handle 100 outstanding requests, then wait for requests to finish
+    purrr::map(~ httr2::req_throttle(.x, capacity = 100))
 
   # Parse the response
   objects_response <-
-    objects_request %>%
-    httr2::req_perform() %>%
-    httr2::resp_body_json()
+    objects_requests %>%
+    httr2::req_perform_parallel() %>%
+    purrr::map(httr2::resp_body_json)
 
   # Forward any error messages
   assertthat::assert_that(
