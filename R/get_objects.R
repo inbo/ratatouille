@@ -93,7 +93,8 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
 
   if(requireNamespace("data.table", quietly = TRUE)) {
     objects_df <- 
-      data.table::rbindlist(objects_attr, fill = TRUE)
+      # data.table will warn for fill (NULL to NA) even if set to TRUE
+      suppressWarnings(data.table::rbindlist(objects_attr, fill = TRUE))
   } else {
     # data.table is not available, so fall-back on dplyr.
     objects_df <- 
