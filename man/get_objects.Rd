@@ -21,5 +21,9 @@ dataset is too large.}
 tibble of requested objects.
 }
 \description{
-Get objects from the RATO ArcGIS Enterprise environment via the API
+This function retreives objects from the RATO ArcGIS environement based on
+the object_id. It is capable of retreiving a large amount of objects in a
+single function call. As to minimize errors it will  fetch \verb{batch size}
+number of objects per request, and will operate in parallel: for a maximum of
+5000 requests per 60 seconds, having at most 10 requests open at a time.
 }
