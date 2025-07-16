@@ -70,24 +70,27 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
       unique()
   )
 
-  # Pluck (so an error is returned if missing) the parts of the response we
-  # want, and convert it into tabular form, then return it.
+  # Get the parts of the response we want
 
-  objects_response %>%
-    purrr::chuck("features") %>%
-    purrr::map(~ purrr::pluck(.x, "attributes")) %>%
-    # Convert every record in a single row data.frame, replace NULL with NA
-    purrr::map(
-      ~ as.data.frame(
-        purrr::map(
-          .x,
-          \(field_value) {
-            ifelse(is.null(field_value), NA, field_value)
-          }
-        )
-      )
-    ) %>%
+  objects_attr <- objects_response %>%
+    purrr::map("features") %>%
+    purrr::list_flatten() %>% 
+    purrr::map("attributes")
+
+  # data.table is much faster than dplyr (purrr::list_rbind) for large list to
+  # df conversion because it uses C internally.
+
+  if(!requireNamespace("data.table", quietly = TRUE)) {
+    objects_df <- 
+      data.table::rbindlist(objects_attr, fill = TRUE)
+  } else {
+    # data.table is not available, so fall-back on dplyr.
+    objects_df <- 
+      # Convert every record in a single row data.frame, replace NULL with NA
+    purrr::map(objects_attr, ~as.data.frame(purrr::compact(.x))) %>%
     # Combine all the data.frames together so we have one row per record
-    purrr::list_rbind() %>%
-    return()
+    purrr::list_rbind()
+  }
+    
+    return(objects_df)
 }
