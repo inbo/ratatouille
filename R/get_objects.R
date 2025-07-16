@@ -26,9 +26,8 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
   }
 
   # Split requested object_ids into batches
-  batched_ids <- split(all_object_ids, ceiling(seq_along(all_object_ids) / batch_size))
-
-
+  batched_ids <-
+    split(object_ids, ceiling(seq_along(object_ids) / batch_size))
 
   # Build requests for the API
   objects_requests <-
