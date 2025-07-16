@@ -64,8 +64,10 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
 
   # Forward any error messages
   assertthat::assert_that(
-    isTRUE(purrr::pluck(objects_response, "error", "message", .default = TRUE)),
-    msg = purrr::pluck(objects_response, "error", "message")
+    all(purrr::map_lgl(objects_response, "error", "message", .default = TRUE)),
+    msg = purrr::map(objects_response, "error", "message") %>% 
+      purrr::compact() %>% 
+      unique()
   )
 
   # Pluck (so an error is returned if missing) the parts of the response we
