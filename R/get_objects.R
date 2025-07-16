@@ -18,9 +18,11 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
   assertthat::assert_that(assertthat::is.count(batch_size))
 
   # Assert that batch size is not too big
-  if(batch_size > 50) {
-    warning(glue::glue("Batch size is set to a higher than default value ",
-    "this may result in timeouts or errors.")
+  if (batch_size > 50) {
+    warning(glue::glue(
+      "Batch size is set to a higher than default value ",
+      "this may result in timeouts or errors."
+    ))
   }
   # Collate the object id's to query and format them as expected for the API
   object_id_query <- glue::glue(
