@@ -86,7 +86,7 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
   # data.table is much faster than dplyr (purrr::list_rbind) for large list to
   # df conversion because it uses C internally.
 
-  if(!requireNamespace("data.table", quietly = TRUE)) {
+  if(requireNamespace("data.table", quietly = TRUE)) {
     objects_df <- 
       data.table::rbindlist(objects_attr, fill = TRUE)
   } else {
