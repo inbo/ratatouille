@@ -23,7 +23,8 @@ Imports:
     glue,
     httr2 (>= 1.2.1),
     magrittr,
-    purrr
+    purrr,
+    rlang
 Suggests: 
     data.table,
     testthat (>= 3.0.0)

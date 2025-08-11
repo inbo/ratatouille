@@ -24,7 +24,9 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
   assertthat::assert_that(assertthat::is.count(batch_size))
 
   # Assert that batch size is not too big
-  if (batch_size > 50) {
+  default_batch_size <- 
+    rlang::eval_bare(formals(rlang::caller_fn(0))[["batch_size"]])
+  if (batch_size > default_batch_size) {
     warning(glue::glue(
       "Batch size is set to a higher than default value ",
       "this may result in timeouts or errors."
@@ -93,7 +95,7 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
   # data.table is much faster than dplyr (purrr::list_rbind) for large list to
   # df conversion because it uses C internally.
 
-  if (requireNamespace("data.table", quietly = TRUE)) {
+  if (rlang::is_installed("data.table")) {
     objects_df <-
       # data.table will warn for fill (NULL to NA) even if set to TRUE
       suppressWarnings(data.table::rbindlist(objects_attr, fill = TRUE))
