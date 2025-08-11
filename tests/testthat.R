@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(rato.data)
+library(ratatouille)
 
-test_check("rato.data")
+test_check("ratatouille")
