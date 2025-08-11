@@ -102,7 +102,7 @@ get_objects <- function(object_ids = list_object_ids(),
       # data.table will warn for fill (NULL to NA) even if set to TRUE
       suppressWarnings(data.table::rbindlist(objects_attr, fill = TRUE))
   } else {
-    # data.table is not available, so fall-back on dplyr.
+    # data.table is not available, so fall-back on purrr.
     objects_df <-
       # Convert every record in a single row data.frame, replace NULL with NA
       purrr::map(objects_attr, ~ as.data.frame(purrr::compact(.x))) %>%
