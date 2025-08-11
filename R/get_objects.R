@@ -61,9 +61,9 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
     }) %>%
     # Set capacity of API: handle capacity outstanding requests, then wait for
     # requests to finish
-    purrr::map(~ httr2::req_throttle(.x, capacity = 5000)) %>% 
+    purrr::map(~ httr2::req_throttle(.x, capacity = 5000)) %>%
     # max_tries needs to be 2 for req_parallel
-    purrr::map(~ httr2::req_retry(.x, max_tries = 2)) 
+    purrr::map(~ httr2::req_retry(.x, max_tries = 2))
 
   # Parse the response
   objects_response <-
@@ -76,8 +76,8 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
   # Forward any error messages
   assertthat::assert_that(
     all(purrr::map_lgl(objects_response, "error", "message", .default = TRUE)),
-    msg = purrr::map(objects_response, "error", "message") %>% 
-      purrr::compact() %>% 
+    msg = purrr::map(objects_response, "error", "message") %>%
+      purrr::compact() %>%
       unique()
   )
 
@@ -85,24 +85,24 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
 
   objects_attr <- objects_response %>%
     purrr::map("features") %>%
-    purrr::list_flatten() %>% 
+    purrr::list_flatten() %>%
     purrr::map("attributes")
 
   # data.table is much faster than dplyr (purrr::list_rbind) for large list to
   # df conversion because it uses C internally.
 
-  if(requireNamespace("data.table", quietly = TRUE)) {
-    objects_df <- 
+  if (requireNamespace("data.table", quietly = TRUE)) {
+    objects_df <-
       # data.table will warn for fill (NULL to NA) even if set to TRUE
       suppressWarnings(data.table::rbindlist(objects_attr, fill = TRUE))
   } else {
     # data.table is not available, so fall-back on dplyr.
-    objects_df <- 
+    objects_df <-
       # Convert every record in a single row data.frame, replace NULL with NA
-    purrr::map(objects_attr, ~as.data.frame(purrr::compact(.x))) %>%
-    # Combine all the data.frames together so we have one row per record
-    purrr::list_rbind()
+      purrr::map(objects_attr, ~ as.data.frame(purrr::compact(.x))) %>%
+      # Combine all the data.frames together so we have one row per record
+      purrr::list_rbind()
   }
-    
-    return(objects_df)
+
+  return(objects_df)
 }
