@@ -16,7 +16,9 @@
 #'
 #' @return tibble of requested objects.
 #' @export
-get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
+get_objects <- function(object_ids = list_object_ids(),
+                        token = get_token(),
+                        batch_size = 50) {
   # Assert that objects were requested
   assertthat::assert_that(assertthat::not_empty(object_ids))
 
