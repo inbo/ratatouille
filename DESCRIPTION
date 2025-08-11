@@ -22,7 +22,7 @@ Imports:
     assertthat,
     curl,
     glue,
-    httr2 (>= 1.1.1),
+    httr2 (>= 1.2.1),
     magrittr,
     purrr
 Suggests: 
