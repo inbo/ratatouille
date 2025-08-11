@@ -37,13 +37,15 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
 
   # Build requests for the API
   objects_requests <-
-    purrr::map(batched_ids, \(ids, token_to_use = token){
-      # Collate the object id's to query and format them as expected for the API
-      object_id_query <- glue::glue(
-        "OBJECTID IN ({object_ids_collated})",
-        object_ids_collated = glue::glue_collapse(ids, sep = ",")
-      )
-
+    purrr::map(
+      batched_ids,
+      \(ids, token_to_use = token) {
+        # Collate the object id's to query and format them as expected for the API
+        object_id_query <- glue::glue(
+          "OBJECTID IN ({object_ids_collated})",
+          object_ids_collated = glue::glue_collapse(ids, sep = ",")
+        )
+        
       httr2::request("https://gis.oost-vlaanderen.be/server/rest/services/") %>%
         httr2::req_url_path_append(
           "RATO2",

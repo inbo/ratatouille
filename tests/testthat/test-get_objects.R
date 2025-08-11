@@ -38,6 +38,6 @@ test_that("get_objects() warns for batch sizes above 50", {
   )
 })
 
-test_that("get_objects() can fallback on dplyr if data.table is not installed", {
+test_that("get_objects() can fallback on dplyr if data.table isn't installed", {
   # Implement with mocked binding or with withr::with_libpath ?
 })
