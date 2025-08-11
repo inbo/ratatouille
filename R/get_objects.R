@@ -42,8 +42,7 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
       object_id_query <- glue::glue(
         "OBJECTID IN ({object_ids_collated})",
         object_ids_collated = glue::glue_collapse(ids, sep = ",")
-      ) %>%
-        curl::curl_escape()
+      )
 
       httr2::request("https://gis.oost-vlaanderen.be/server/rest/services/") %>%
         httr2::req_url_path_append(
