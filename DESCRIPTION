@@ -20,12 +20,13 @@ Depends:
 Imports: 
     askpass,
     assertthat,
-    curl,
     glue,
-    httr2 (>= 1.1.1),
+    httr2 (>= 1.2.1),
     magrittr,
-    purrr
+    purrr,
+    rlang
 Suggests: 
+    data.table,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
