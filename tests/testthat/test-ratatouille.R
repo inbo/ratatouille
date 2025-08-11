@@ -16,7 +16,7 @@ test_that("ratatouille returns error on invalid source", {
   )
 })
 
-test_that("ratatouille can pass on arguments to it's internal helpers", {
+test_that("ratatouille can pass on arguments to its internal helpers", {
   my_object_ids <- sample(list_object_ids(), size = 5)
   
   expect_s3_class(

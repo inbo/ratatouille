@@ -42,7 +42,7 @@ test_that("get_objects() can fallback on dplyr if data.table isn't installed", {
   # Implement with mocked binding or with withr::with_libpath ?
 })
 
-test_that("get_objects() returns POSIXct dates and not miliseconds since 1970",{
+test_that("get_objects() returns POSIXct dates and not time since 1970",{
   # fetch 150 random records
   rato_obs <-
     get_objects(object_ids = sample(list_object_ids(), size = 150))

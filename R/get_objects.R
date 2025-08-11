@@ -115,7 +115,7 @@ get_objects <- function(object_ids = list_object_ids(),
     objects_df %>%
     dplyr::mutate(dplyr::across(
       dplyr::contains("Datum"), # RATO datetime fields have Datum in their name
-      ~ as.POSIXct(.x / 1000, # miliseconds since 1970
+      ~ as.POSIXct(.x / 1000, # milliseconds since 1970
                    origin = "1970-01-01")
     ))
   
