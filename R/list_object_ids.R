@@ -12,8 +12,10 @@ list_object_ids <- function(token = get_token()) {
                         "RATO2_Dossiers_Publiek",
                         "MapServer",
                         "0",
-                        "query?where=1%3D1") %>%
+                        "query"
+                        ) %>%
     httr2::req_url_query(
+      where = "1=1",
       returnIdsOnly = "true",
       f = "pjson",
       token = token
