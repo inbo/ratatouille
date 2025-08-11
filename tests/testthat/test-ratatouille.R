@@ -3,8 +3,10 @@ test_that("ratatouille supports fetching data from rato", {
   skip_if(Sys.getenv("RATO_USER") == "")
   skip_if(Sys.getenv("RATO_PWD") == "")
 
+  # Select a subset of records to retreive: too many causes trouble on CI
+  my_object_ids <- sample(list_object_ids(), size = 50)
   expect_s3_class(
-    ratatouille(source = "rato"),
+    ratatouille(source = "rato", object_ids = my_object_ids),
     "data.frame"
   )
 })
