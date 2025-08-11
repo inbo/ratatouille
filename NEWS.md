@@ -1,3 +1,3 @@
-# rato.data (development version)
+# ratatouille (development version)
 
 

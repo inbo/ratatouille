@@ -1,6 +1,6 @@
-# Contributing to rato.data
+# Contributing to ratatouille
 
-This outlines how to propose a change to rato.data.
+This outlines how to propose a change to ratatouille.
 For a detailed discussion on contributing to this and other tidyverse packages, please see the [development contributing guide](https://rstd.io/tidy-contrib) and our [code review principles](https://code-review.tidyverse.org/).
 
 ## Fixing typos
@@ -42,6 +42,6 @@ See our guide on [how to create a great issue](https://code-review.tidyverse.org
 
 ## Code of Conduct
 
-Please note that the rato.data project is released with a
+Please note that the ratatouille project is released with a
 [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this
 project you agree to abide by its terms.

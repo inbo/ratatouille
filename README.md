@@ -1,6 +1,6 @@
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/inbo/rato-data/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/inbo/rato-data/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/inbo/rato-data/graph/badge.svg)](https://app.codecov.io/gh/inbo/rato-data)
+[![R-CMD-check](https://github.com/inbo/ratatouille/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/inbo/ratatouille/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/inbo/ratatouille/graph/badge.svg)](https://app.codecov.io/gh/inbo/ratatouille)
 <!-- badges: end -->
 
 ## Rationale
@@ -32,7 +32,7 @@ After restarting your R instance you should be able to fetch data from the RATO 
 ## Installation
 
 ```r
-pak::pkg_install("inbo/rato-data")
+pak::pkg_install("inbo/ratatouille")
 
 ```
 ## License
