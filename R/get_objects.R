@@ -50,9 +50,10 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
           "RATO2_Dossiers_Publiek",
           "MapServer",
           "0",
-          glue::glue("query?where={object_id_query}")
+          "query"
         ) %>%
         httr2::req_url_query(
+          where = object_id_query,
           outFields = "*",
           f = "json",
           token = token_to_use
