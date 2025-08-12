@@ -16,3 +16,22 @@ test_that("get_token() returns token with correct credentials", {
     192L
   )
 })
+
+test_that("get_token() returns error on missing username/password", {
+  expect_error(
+    get_token(username = ""),
+    class = "rato_no_pwd_provided"
+  )
+  expect_error(
+    get_token(password = ""),
+    class = "rato_no_pwd_provided"
+  )
+  expect_error(
+    get_token(username = "", password = ""),
+    class = "rato_no_pwd_provided"
+  )
+  expect_error(
+    get_token(username = "myuserid", password = ""),
+    class = "rato_no_pwd_provided"
+  )
+})

@@ -16,7 +16,9 @@
 #'
 #' @return tibble of requested objects.
 #' @export
-get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
+get_objects <- function(object_ids = list_object_ids(),
+                        token = get_token(),
+                        batch_size = 50) {
   # Assert that objects were requested
   assertthat::assert_that(assertthat::not_empty(object_ids))
 
@@ -65,9 +67,9 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
     }) %>%
     # Set capacity of API: handle capacity outstanding requests, then wait for
     # requests to finish
-    purrr::map(~ httr2::req_throttle(.x, capacity = 5000)) %>%
+    purrr::map(~ httr2::req_throttle(.x, capacity = 1000)) %>%
     # max_tries needs to be 2 for req_parallel
-    purrr::map(~ httr2::req_retry(.x, max_tries = 2))
+    purrr::map(~ httr2::req_retry(.x, max_tries = 3))
 
   # Parse the response
   objects_response <-
@@ -100,13 +102,23 @@ get_objects <- function(object_ids, token = get_token(), batch_size = 50) {
       # data.table will warn for fill (NULL to NA) even if set to TRUE
       suppressWarnings(data.table::rbindlist(objects_attr, fill = TRUE))
   } else {
-    # data.table is not available, so fall-back on dplyr.
+    # data.table is not available, so fall-back on purrr.
     objects_df <-
       # Convert every record in a single row data.frame, replace NULL with NA
       purrr::map(objects_attr, ~ as.data.frame(purrr::compact(.x))) %>%
       # Combine all the data.frames together so we have one row per record
       purrr::list_rbind()
   }
-
-  return(objects_df)
+  
+  # convert datetime fields into POSIXct
+  parsed_df <-
+    objects_df %>%
+    dplyr::mutate(dplyr::across(
+      dplyr::contains("Datum"), # RATO datetime fields have Datum in their name
+      ~ as.POSIXct(.x / 1000, # milliseconds since 1970
+                   origin = "1970-01-01")
+    ))
+  
+  # return the parsed data.frame
+  return(parsed_df)
 }

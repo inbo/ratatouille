@@ -6,16 +6,13 @@
 \usage{
 get_token(
   username = Sys.getenv("RATO_USER"),
-  password = Sys.getenv("RATO_PWD"),
-  expires = 5
+  password = Sys.getenv("RATO_PWD")
 )
 }
 \arguments{
 \item{username}{ArcGIS Enterprise username}
 
 \item{password}{ArcGIS Enterprise password}
-
-\item{expires}{In minutes, how long should the token remain valid?}
 }
 \value{
 Character. An access token for future API calls.
@@ -26,4 +23,9 @@ The credentials are stored in your .Renviron file under \code{RATO_USER} and
 you for them and store them in these environmental variables. To reset any
 stored values,  pass emtpy strings \code{""} to either the \code{username} or
 \code{password} arguments.
+}
+\details{
+By default tokens expire every 5 minutes, and are cached until they expire.
+You can set a different expiry duration by changing the
+\code{ratatouille.rato_expires_minutes} option with \code{options()}
 }

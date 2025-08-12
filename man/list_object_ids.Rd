@@ -13,5 +13,8 @@ list_object_ids(token = get_token())
 Integer vector of (all) object ids.
 }
 \description{
-List all object ids in the RATO ArcGIS Enterprise MapServer
+The returned id's are cached by default, but this can be overwritten by
+calling \code{memoise::forget(list_object_ids)} which will remove the cache and
+ensure the next call queries the database (but will reinstate the cache for
+any follow up calls).
 }

@@ -4,7 +4,11 @@
 \alias{get_objects}
 \title{Get objects from the RATO ArcGIS Enterprise environment via the API}
 \usage{
-get_objects(object_ids, token = get_token(), batch_size = 50)
+get_objects(
+  object_ids = list_object_ids(),
+  token = get_token(),
+  batch_size = 50
+)
 }
 \arguments{
 \item{object_ids}{Vector of object_ids, will be converted to character.}
