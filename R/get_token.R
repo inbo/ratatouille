@@ -48,7 +48,8 @@ get_token <- function(username = Sys.getenv("RATO_USER"),
       referer = "https://gis.oost-vlaanderen.be",
       expiration = getOption("ratatouille.rato_expires_minutes"),
       f = "json"
-    )
+    ) %>% 
+    httr2::req_retry(max_tries = 3)
 
   # Parse the API response
   token_response <-
