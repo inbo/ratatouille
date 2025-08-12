@@ -24,8 +24,15 @@ get_token <- function(username = Sys.getenv("RATO_USER"),
 
   # If the pwd variable isn't set, prompt for password when session interactive
   if (password == "" || username == "") {
-    Sys.setenv(RATO_USER = readline(prompt = "Please enter your RATO username: "))
-    Sys.setenv(RATO_PWD = askpass::askpass())
+    rlang::abort(
+      message =
+        c("No username or password provided",
+          paste("i Please provide username/password as arguments or set the as",
+                "environemental variables or via `.Renviron` as `RATO_USER`",
+                "and `RATO_PWD`.")
+          ),
+      class = "rato_no_pwd_provided"
+    )
   }
 
   # Build request for the API
