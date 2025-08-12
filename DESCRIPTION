@@ -1,5 +1,5 @@
 Package: ratatouille
-Title: Fetch data from the RATO database
+Title: Fetch Data from the RATO Database
 Version: 1.0.0
 Authors@R: c(
     person("Pieter", "Huybrechts", , "pieter.huybrechts@inbo.be", role = c("aut", "cre"),
