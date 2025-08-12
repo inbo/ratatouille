@@ -1,0 +1,76 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# ratatouille
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/inbo/ratatouille/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/inbo/ratatouille/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/inbo/ratatouille/graph/badge.svg)](https://app.codecov.io/gh/inbo/ratatouille)
+<!-- badges: end -->
+
+## Rationale
+
+This repository contains the functionality to access the unprocessed data of 
+[RATO vzw](https://oost-vlaanderen.be/wonen-en-leven/natuur-en-milieu/overlastsoorten/rattenbestrijding-.html) 
+via an API call to an [ESRI ArcGIS instance](https://developers.arcgis.com/documentation/).
+Credentials are required to access this data. These credentials are stored as a github secrets under the `RATO_USER` and `RATO_PWD` environmental parameters, and can be set locally by editing the `.Renviron` file.
+
+## Set Up your RATO credentials locally
+
+The easiest way to store the required username and password necessary to access the RATO database is by storing them in your `.Renviron` file. An easy way to edit this file is by using a function from [the usethis package](https://usethis.r-lib.org/). 
+
+```r
+install.packages("usethis")
+usethis::edit_r_environ()
+```
+
+The contents of the file may contain other secrets or settings used by other scripts or packages, but can be edited to have lines like:
+
+```
+RATO_USER = "RATO_INBO"
+RATO_PWD = "a super fake password that should be replaced by your real one"
+```
+
+After restarting your R instance you should be able to fetch data from the RATO database without being prompted for your credentials.
+
+
+## Installation
+
+You can install the development version of ratatouille from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("pak")
+pak::pak("inbo/ratatouille")
+```
+
+## Example
+
+Once you have your credentials stored, getting raw data from RATO is as easy as:
+
+```{r example of main function}
+library(ratatouille)
+rato_data <- ratatouille()
+dplyr::slice_sample(rato_data, n = 5) |>
+  dplyr::select(dplyr::all_of(c("Soort", "Materiaal_Vast", "Materiaal_Consumptie", "Laatst_Bewerkt_Datum")))
+```
+For this example a subset of fields that should not contain sensitive information were selected.
+
+## Species in the dataset
+This is raw data, some cleaning will be required. Dutch names and GBIF taxon ids are provided, but these last are often unchecked and may contain errors.
+
+```{r}
+dplyr::count(rato_data, Soort, sort = TRUE)
+```
+
