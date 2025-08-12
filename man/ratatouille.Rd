@@ -13,11 +13,14 @@ default RATO data is fetched.}
 \item{...}{Passed on to internal helpers.}
 }
 \value{
-A data.frame containing the raw invasive species data.
+A data.frame containing the raw invasive species data from the
+selected source.
 }
 \description{
 Fetch raw invasive species data
 }
 \examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 ratatouille()
+\dontshow{\}) # examplesIf}
 }
