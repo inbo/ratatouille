@@ -50,48 +50,48 @@ get_objects <- function(object_ids = list_object_ids(),
           object_ids_collated = glue::glue_collapse(ids, sep = ",")
         )
         
-      httr2::request("https://gis.oost-vlaanderen.be/server/rest/services/") %>%
+      httr2::request("https://gis.oost-vlaanderen.be/server/rest/services/") |>
         httr2::req_url_path_append(
           "RATO2",
           "RATO2_Dossiers_Publiek",
           "MapServer",
           "0",
           "query"
-        ) %>%
+        ) |>
         httr2::req_url_query(
           where = object_id_query,
           outFields = "*",
           f = "json",
           token = token_to_use
         )
-    }) %>%
+    }) |>
     # Set capacity of API: handle capacity outstanding requests, then wait for
     # requests to finish
-    purrr::map(~ httr2::req_throttle(.x, capacity = 1000)) %>%
+    purrr::map(~ httr2::req_throttle(.x, capacity = 1000)) |>
     # max_tries needs to be 2 for req_parallel
     purrr::map(~ httr2::req_retry(.x, max_tries = 3))
 
   # Parse the response
   objects_response <-
-    objects_requests %>%
+    objects_requests |>
     httr2::req_perform_parallel(
       progress = "Fetching"
-    ) %>%
+    ) |>
     purrr::map(httr2::resp_body_json)
 
   # Forward any error messages
   assertthat::assert_that(
     all(purrr::map_lgl(objects_response, "error", "message", .default = TRUE)),
-    msg = purrr::map(objects_response, "error", "message") %>%
-      purrr::compact() %>%
+    msg = purrr::map(objects_response, "error", "message") |>
+      purrr::compact() |>
       unique()
   )
 
   # Get the parts of the response we want
 
-  objects_attr <- objects_response %>%
-    purrr::map("features") %>%
-    purrr::list_flatten() %>%
+  objects_attr <- objects_response |>
+    purrr::map("features") |>
+    purrr::list_flatten() |>
     purrr::map("attributes")
 
   # data.table is much faster than dplyr (purrr::list_rbind) for large list to
@@ -105,14 +105,14 @@ get_objects <- function(object_ids = list_object_ids(),
     # data.table is not available, so fall-back on purrr.
     objects_df <-
       # Convert every record in a single row data.frame, replace NULL with NA
-      purrr::map(objects_attr, ~ as.data.frame(purrr::compact(.x))) %>%
+      purrr::map(objects_attr, ~ as.data.frame(purrr::compact(.x))) |>
       # Combine all the data.frames together so we have one row per record
       purrr::list_rbind()
   }
   
   # convert datetime fields into POSIXct
   parsed_df <-
-    objects_df %>%
+    objects_df |>
     dplyr::mutate(dplyr::across(
       dplyr::contains("Datum"), # RATO datetime fields have Datum in their name
       ~ as.POSIXct(.x / 1000, # milliseconds since 1970

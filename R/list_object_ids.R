@@ -13,29 +13,29 @@ list_object_ids <- function(token = get_token()) {
 
   # Build the request by querying all objects, but only return ids.
   object_ids_request <-
-    httr2::request("https://gis.oost-vlaanderen.be/server/rest/services/") %>%
+    httr2::request("https://gis.oost-vlaanderen.be/server/rest/services/") |>
     httr2::req_url_path_append(
       "RATO2",
       "RATO2_Dossiers_Publiek",
       "MapServer",
       "0",
-      "query") %>%
+      "query") |>
     httr2::req_url_query(
       where = "1=1",
       returnIdsOnly = "true",
       f = "pjson",
       token = token
-    ) %>% 
+    ) |> 
     httr2::req_retry(max_tries = 3)
   
   # Perform request
   object_ids_response <- 
-    object_ids_request %>% 
-    httr2::req_perform() %>%
+    object_ids_request |> 
+    httr2::req_perform() |>
     httr2::resp_body_json(check_type = FALSE)
 
-  object_ids_response %>%
-    purrr::chuck("objectIds") %>%
-    unlist() %>%
-    return()
+  object_ids <- object_ids_response |>
+    purrr::chuck("objectIds") |>
+    unlist()
+  return(object_ids)
 }

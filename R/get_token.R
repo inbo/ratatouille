@@ -37,8 +37,8 @@ get_token <- function(username = Sys.getenv("RATO_USER"),
 
   # Build request for the API
   token_request <-
-    httr2::request("https://gis.oost-vlaanderen.be") %>%
-    httr2::req_url_path("portal", "sharing", "rest", "generateToken") %>%
+    httr2::request("https://gis.oost-vlaanderen.be") |>
+    httr2::req_url_path("portal", "sharing", "rest", "generateToken") |>
     httr2::req_body_form(
       username = username,
       password = password,
@@ -48,13 +48,13 @@ get_token <- function(username = Sys.getenv("RATO_USER"),
       referer = "https://gis.oost-vlaanderen.be",
       expiration = getOption("ratatouille.rato_expires_minutes"),
       f = "json"
-    ) %>% 
+    ) |> 
     httr2::req_retry(max_tries = 3)
 
   # Parse the API response
   token_response <-
-    token_request %>%
-    httr2::req_perform() %>%
+    token_request |>
+    httr2::req_perform() |>
     httr2::resp_body_json()
 
   # If unable to login, reset the password so one is requested next time.

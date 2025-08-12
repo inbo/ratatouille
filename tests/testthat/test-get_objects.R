@@ -47,7 +47,7 @@ test_that("get_objects() returns POSIXct dates and not time since 1970",{
   rato_obs <-
     get_objects(object_ids = sample(list_object_ids(), size = 150))
   
-  dplyr::select(rato_obs, dplyr::contains("Datum")) %>% 
+  dplyr::select(rato_obs, dplyr::contains("Datum")) |>
     purrr::walk(expect_s3_class, "POSIXct")
   
 })
