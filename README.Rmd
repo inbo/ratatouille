@@ -59,13 +59,16 @@ pak::pak("inbo/ratatouille")
 
 Once you have your credentials stored, getting raw data from RATO is as easy as:
 
-```{r example of main function}
+```{r example of main function, message = FALSE}
 library(ratatouille)
 rato_data <- ratatouille()
+```
+The resulting object looks like this (but has many more columns):
+```{r slice raw output}
 dplyr::slice_sample(rato_data, n = 5) |>
   dplyr::select(dplyr::all_of(c("Soort", "Materiaal_Vast", "Materiaal_Consumptie", "Laatst_Bewerkt_Datum")))
 ```
-For this example a subset of fields that should not contain sensitive information were selected.
+For this example only a few fields are shown because there is the possiblility of personal data in other fields. 
 
 ## Species in the dataset
 This is raw data, some cleaning will be required. Dutch names and GBIF taxon ids are provided, but these last are often unchecked and may contain errors.
