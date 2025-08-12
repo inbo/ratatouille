@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ratatouille</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,16 +29,20 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/inbo/ratatouille/blob/v1.0.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/inbo/ratatouille/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="ratatouille-development-version">ratatouille (development version)<a class="anchor" aria-label="anchor" href="#ratatouille-development-version"></a></h2>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="ratatouille-100">ratatouille 1.0.0<a class="anchor" aria-label="anchor" href="#ratatouille-100"></a></h2>
 <ul><li>Add <code><a href="../reference/ratatouille.html">ratatouille()</a></code>, a function to fetch all available invasive species data from RATO in a single function call. (<a href="https://github.com/inbo/ratatouille/issues/36" class="external-link">#36</a>)</li>
 <li>All functions will now retry failed requests, when fetching objects from RATO <code><a href="../reference/ratatouille.html">ratatouille()</a></code> will throttle after 1000 outstanding requests. (<a href="https://github.com/inbo/ratatouille/issues/36" class="external-link">#36</a>, <a href="https://github.com/inbo/ratatouille/issues/37" class="external-link">#37</a>)</li>
 <li>Add package wide options <code>ratatouille.rato_expires_minutes</code>, default 5 minutes and <code>ratatouille.cache_max_age_secs</code>, default 150 seconds. To allow easy modification of the cache behaviour. (<a href="https://github.com/inbo/ratatouille/issues/36" class="external-link">#36</a>)</li>
 </ul></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
