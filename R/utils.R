@@ -27,8 +27,7 @@ as_datetime <- function(miliseconds, origin = "1970-01-01", ...) {
 #' - ratatouille.rato_expires_minutes controls both how long a RATO ArcGIS REST
 #'  API access token should stay valid, and how long it should be cached for 
 #'  (the same duration).
-#'
-
+#' @noRd
 .onLoad <- function(libname, pkgname) {
   # Package options
   op <- options()
@@ -42,7 +41,9 @@ as_datetime <- function(miliseconds, origin = "1970-01-01", ...) {
   # Memoisation
   get_token <<- memoise::memoise(get_token,
     # token expires every 5 minutes
-    ~ memoise::timeout(60 * getOption("ratatouille.rato_expires_minutes"))
+    cache = cachem::cache_mem(
+      max_age = 60 * getOption("ratatouille.rato_expires_minutes")
+      )
   )
 
   list_object_ids <<-

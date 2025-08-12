@@ -21,6 +21,7 @@ Depends:
 Imports: 
     askpass,
     assertthat,
+    cachem,
     dplyr,
     glue,
     httr2 (>= 1.2.1),
