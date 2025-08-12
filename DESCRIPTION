@@ -1,6 +1,6 @@
 Package: ratatouille
-Title: Fetch data from the RATO database
-Version: 0.1.1.9000
+Title: Fetch Data from the RATO Database
+Version: 1.0.0
 Authors@R: c(
     person("Pieter", "Huybrechts", , "pieter.huybrechts@inbo.be", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6658-6062")),
@@ -15,9 +15,9 @@ Description: This repository contains the functionality to access the
     unprocessed data of RATO vzw via an API call to an ESRI ArcGIS
     instance. Credentials are required to access this data.
 License: MIT + file LICENSE
-URL: https://github.com/inbo/ratatouille, https://inbo.github.io/ratatouille
+URL: https://github.com/inbo/ratatouille, https://inbo.github.io/ratatouille/
 Depends: 
-    R (>= 4.0)
+    R (>= 4.1.0)
 Imports: 
     assertthat,
     cachem,
