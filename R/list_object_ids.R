@@ -25,7 +25,8 @@ list_object_ids <- function(token = get_token()) {
       returnIdsOnly = "true",
       f = "pjson",
       token = token
-    )
+    ) %>% 
+    httr2::req_retry(max_tries = 3)
   
   # Perform request
   object_ids_response <- 
