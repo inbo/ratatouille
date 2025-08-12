@@ -17,7 +17,7 @@ Description: This repository contains the functionality to access the
 License: MIT + file LICENSE
 URL: https://github.com/inbo/ratatouille, https://inbo.github.io/ratatouille/
 Depends: 
-    R (>= 4.0)
+    R (>= 4.1.0)
 Imports: 
     assertthat,
     cachem,
