@@ -43,7 +43,7 @@ as_datetime <- function(miliseconds, origin = "1970-01-01", ...) {
     # token expires every 5 minutes
     cache = cachem::cache_mem(
       max_age = 60 * getOption("ratatouille.rato_expires_minutes")
-      )
+    )
   )
 
   list_object_ids <<-
