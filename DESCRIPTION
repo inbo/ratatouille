@@ -25,6 +25,7 @@ Imports:
     glue,
     httr2 (>= 1.2.1),
     magrittr,
+    memoise,
     purrr,
     rlang
 Suggests: 

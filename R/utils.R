@@ -20,3 +20,11 @@
 as_datetime <- function(miliseconds, origin = "1970-01-01", ...) {
   as.POSIXct(miliseconds / 1000, origin = origin, tz = "UTC", ...)
 }
+
+.onLoad <- function(libname, pkgname) {
+  get_token <<- memoise::memoise(get_token,
+                                 # token expires every 5 minutes
+                                 ~memoise::timeout(60 * 5))
+  
+  list_object_ids <<- memoise::memoise(list_object_ids)
+}
