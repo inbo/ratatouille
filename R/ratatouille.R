@@ -11,10 +11,10 @@
 #' @examples
 #' ratatouille()
 ratatouille <- function(source = c("rato"), ...) {
-  raw_data <- 
-    switch (rlang::arg_match(source),
-    rato = get_objects(...)
-  )
-  
+  raw_data <-
+    switch(rlang::arg_match(source),
+      rato = get_objects(...)
+    )
+
   return(raw_data)
 }
