@@ -9,8 +9,7 @@
 #'   selected source.
 #' @export
 #'
-#' @examples
-#' ratatouille()
+#' @examplesIf interactive() ratatouille()
 ratatouille <- function(source = c("rato"), ...) {
   raw_data <-
     switch(rlang::arg_match(source),
