@@ -15,7 +15,7 @@ Description: This repository contains the functionality to access the
     unprocessed data of RATO vzw via an API call to an ESRI ArcGIS
     instance. Credentials are required to access this data.
 License: MIT + file LICENSE
-URL: https://github.com/inbo/ratatouille, https://inbo.github.io/ratatouille
+URL: https://github.com/inbo/ratatouille, https://inbo.github.io/ratatouille/
 Depends: 
     R (>= 4.0)
 Imports: 
