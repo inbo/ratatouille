@@ -6,16 +6,18 @@
 #' stored values,  pass emtpy strings `""` to either the `username` or
 #' `password` arguments.
 #'
+#' By default tokens expire every 5 minutes, and are cached until they expire.
+#' You can set a different expiry duration by changing the
+#' `ratatouille.rato_expires_minutes` option with `options()`
+#'
 #' @param username ArcGIS Enterprise username
 #' @param password ArcGIS Enterprise password
-#' @param expires In minutes, how long should the token remain valid?
 #'
 #' @return Character. An access token for future API calls.
 #'
 #' @export
 get_token <- function(username = Sys.getenv("RATO_USER"),
-                      password = Sys.getenv("RATO_PWD"),
-                      expires = 5) {
+                      password = Sys.getenv("RATO_PWD")) {
   # Check that username and password are strings if provided
   assertthat::assert_that(assertthat::is.string(username))
   assertthat::assert_that(assertthat::is.string(password))
@@ -37,7 +39,7 @@ get_token <- function(username = Sys.getenv("RATO_USER"),
       # not work!
       client = "referer",
       referer = "https://gis.oost-vlaanderen.be",
-      expiration = expires,
+      expiration = getOption("ratatouille.rato_expires_minutes"),
       f = "json"
     )
 
@@ -61,6 +63,4 @@ get_token <- function(username = Sys.getenv("RATO_USER"),
     ## If there was no error, return the token
     return(token_response$token)
   }
-
-
 }

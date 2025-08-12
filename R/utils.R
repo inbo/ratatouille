@@ -21,10 +21,30 @@ as_datetime <- function(miliseconds, origin = "1970-01-01", ...) {
   as.POSIXct(miliseconds / 1000, origin = origin, tz = "UTC", ...)
 }
 
+#' Create .onLoad function to set Package options and memoisation behavior on
+#' load
+#'
+#' - ratatouille.rato_expires_minutes controls both how long a RATO ArcGIS REST
+#'  API access token should stay valid, and how long it should be cached for 
+#'  (the same duration).
+#'
+
 .onLoad <- function(libname, pkgname) {
+  # Package options
+  op <- options()
+  op.ratatouille <- list(
+    ratatouille.rato_expires_minutes = 5
+  )
+  toset <- !(names(op.ratatouille) %in% names(op))
+  if (any(toset)) options(op.ratatouille[toset])
+
+
+  # Memoisation
   get_token <<- memoise::memoise(get_token,
-                                 # token expires every 5 minutes
-                                 ~memoise::timeout(60 * 5))
-  
-  list_object_ids <<- memoise::memoise(list_object_ids)
+    # token expires every 5 minutes
+    ~ memoise::timeout(60 * getOption("ratatouille.rato_expires_minutes"))
+  )
+
+  list_object_ids <<-
+    memoise::memoise(list_object_ids)
 }
