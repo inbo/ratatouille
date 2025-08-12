@@ -27,12 +27,16 @@ as_datetime <- function(miliseconds, origin = "1970-01-01", ...) {
 #' - ratatouille.rato_expires_minutes controls both how long a RATO ArcGIS REST
 #'  API access token should stay valid, and how long it should be cached for 
 #'  (the same duration).
+#' - ratatouille.cache_max_age_secs controls the number of seconds a value 
+#'  stays in the cache. Setting this too high might result in changes in the 
+#'  source data not being fetched.
 #' @noRd
 .onLoad <- function(libname, pkgname) {
   # Package options
   op <- options()
   op.ratatouille <- list(
-    ratatouille.rato_expires_minutes = 5
+    ratatouille.rato_expires_minutes = 5,
+    ratatouille.cache_max_age_secs = 150
   )
   toset <- !(names(op.ratatouille) %in% names(op))
   if (any(toset)) options(op.ratatouille[toset])
@@ -47,5 +51,10 @@ as_datetime <- function(miliseconds, origin = "1970-01-01", ...) {
   )
 
   list_object_ids <<-
-    memoise::memoise(list_object_ids)
+    memoise::memoise(list_object_ids,
+                     cache =
+                       cachem::cache_mem(
+                         max_age = getOption("ratatouille.cache_max_age_secs")
+                         )
+                     )
 }
