@@ -5,7 +5,8 @@
 #'   default RATO data is fetched.
 #' @param ... Passed on to internal helpers.
 #'
-#' @return A data.frame containing the raw invasive species data.
+#' @return A data.frame containing the raw invasive species data from the
+#'   selected source.
 #' @export
 #'
 #' @examples
