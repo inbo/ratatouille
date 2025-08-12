@@ -66,29 +66,16 @@ The resulting object looks like this (but has many more columns):
 
 ``` r
 dplyr::slice_sample(rato_data, n = 5) |>
-  dplyr::select(dplyr::all_of(c("Soort", "Materiaal_Vast", "Materiaal_Consumptie", "Laatst_Bewerkt_Datum")))
-#>                  Soort
-#>                 <char>
-#> 1:           Muskusrat
-#> 2: Bruine rat bak/buis
-#> 3: Bruine rat bak/buis
-#> 4: Bruine rat bak/buis
-#> 5: Bruine rat bak/buis
-#>                                                                                     Materiaal_Vast
-#>                                                                                             <char>
-#> 1: Conibearklem (aantal) = 3; Lokaasklem (aantal) = 1; Fuik (aantal) = 1; Grondklem (aantal) = 2; 
-#> 2:                                                                                            <NA>
-#> 3:                                                                                            <NA>
-#> 4:                                                                                            <NA>
-#> 5:                                                                                            <NA>
-#>                        Materiaal_Consumptie Laatst_Bewerkt_Datum
-#>                                      <char>               <POSc>
-#> 1:                                     <NA>  2023-04-07 15:40:07
-#> 2: Materiaal verdwenen/kapot (aantal) = 1;   2023-07-04 10:52:22
-#> 3:                Broma blok (aantal) = 1;   2021-10-25 10:47:10
-#> 4:                Broma blok (aantal) = 1;   2022-12-13 09:47:47
-#> 5:                Broma blok (aantal) = 1;   2022-09-08 14:45:02
+  dplyr::select(dplyr::all_of(c("Soort", "Materiaal_Vast", "Materiaal_Consumptie", "Laatst_Bewerkt_Datum"))) |> knitr::kable()
 ```
+
+| Soort | Materiaal_Vast | Materiaal_Consumptie | Laatst_Bewerkt_Datum |
+|:---|:---|:---|:---|
+| Bruine rat bak/buis | NA | Broma blok (aantal) = 1; | 2021-12-13 09:17:42 |
+| Muskusrat | Klemvlot (aantal) = 2; | NA | 2024-02-26 10:12:46 |
+| Bruine rat |  | Harmonix (aantal) = 32; | 2023-09-15 15:35:24 |
+| Aziatische hoornaar |  | Permas-D = 1; | 2024-10-01 10:21:25 |
+| Muskusrat | NA | NA | 2022-09-05 14:41:31 |
 
 For this example only a few fields are shown because there is the
 possiblility of personal data in other fields.
