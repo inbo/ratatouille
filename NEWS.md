@@ -1,6 +1,8 @@
 # ratatouille (development version)
 - `magrittr` is no longer a direct dependency, the package now uses base pipes 
 `|>` internally. (#41)
+- The RATO REST API capacity can now be set with an `options()` or by setting 
+the environmental variable `RATO_API_CAPACITY`. (#43)
 # ratatouille 1.0.0
 - Add `ratatouille()`, a function to fetch all available invasive species data 
 from RATO in a single function call. (#36)
