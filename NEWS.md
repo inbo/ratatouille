@@ -1,4 +1,4 @@
-# ratatouille (development version)
+# ratatouille 1.0.1
 - `magrittr` is no longer a direct dependency, the package now uses base pipes 
 `|>` internally. (#41)
 - The RATO REST API capacity can now be set with an `options()` or by setting 
