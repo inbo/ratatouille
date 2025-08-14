@@ -71,14 +71,14 @@ dplyr::slice_sample(rato_data, n = 5) |>
 
 | Soort | Materiaal_Vast | Materiaal_Consumptie | Laatst_Bewerkt_Datum |
 |:---|:---|:---|:---|
-| Bruine rat bak/buis | NA | Broma blok (aantal) = 1; | 2021-12-13 09:17:42 |
-| Muskusrat | Klemvlot (aantal) = 2; | NA | 2024-02-26 10:12:46 |
-| Bruine rat |  | Harmonix (aantal) = 32; | 2023-09-15 15:35:24 |
-| Aziatische hoornaar |  | Permas-D = 1; | 2024-10-01 10:21:25 |
-| Muskusrat | NA | NA | 2022-09-05 14:41:31 |
+| Bruine rat bak/buis | NA | Broma blok (aantal) = 1; | 2022-02-04 09:27:43 |
+| Roosters/kleppen | NA | NA | 2023-01-25 11:53:31 |
+| Bruine rat bak/buis | NA | Difa blok Groot (aantal) = 1; | 2025-01-03 10:27:46 |
+| Bruine rat bak/buis | NA | Broma blok (aantal) = 1; | 2023-08-17 12:47:00 |
+| Bruine rat bak/buis | NA | Geen gif bijgevuld (ok) = 1; | 2024-07-05 07:42:22 |
 
 For this example only a few fields are shown because there is the
-possiblility of personal data in other fields.
+possibility of personal data in other fields.
 
 ## Species in the dataset
 
@@ -90,22 +90,22 @@ contain errors.
 dplyr::count(rato_data, Soort, sort = TRUE)
 #>                                  Soort      n
 #>                                 <char>  <int>
-#>  1:                Bruine rat bak/buis 113325
-#>  2:                         Bruine rat  28627
-#>  3:                          Muskusrat  19768
-#>  4:                Aziatische hoornaar   6895
-#>  5:                        Zwerfkatten   4811
-#>  6:                   Roosters/kleppen   4429
-#>  7:                             Duiven   4371
-#>  8:                             Muizen   1308
-#>  9:                   Reuzenberenklauw   1027
-#> 10:                           Meetpunt    965
-#> 11:                Lettersierschildpad    877
+#>  1:                Bruine rat bak/buis 113511
+#>  2:                         Bruine rat  28686
+#>  3:                          Muskusrat  19774
+#>  4:                Aziatische hoornaar   7113
+#>  5:                        Zwerfkatten   4834
+#>  6:                   Roosters/kleppen   4434
+#>  7:                             Duiven   4374
+#>  8:                             Muizen   1320
+#>  9:                   Reuzenberenklauw   1030
+#> 10:                           Meetpunt    967
+#> 11:                Lettersierschildpad    879
 #> 12:                              Bever    440
 #> 13:                       Voederplaats    390
-#> 14:                             Mollen    344
+#> 14:                             Mollen    345
 #> 15:                        Steenmarter    302
-#> 16:                             Kippen    245
+#> 16:                             Kippen    246
 #> 17:                         Vistrappen    227
 #> 18:                      Canadese Gans    153
 #> 19:                    Halsbandparkiet    126
@@ -117,9 +117,9 @@ dplyr::count(rato_data, Soort, sort = TRUE)
 #> 25:                    Neerhofdier(en)     64
 #> 26:                    Reuzenbalsemien     56
 #> 27:               Obstructie waterloop     52
-#> 28:                    Parelvederkruid     50
-#> 29:               gedomesticeerde gans     47
-#> 30:                           Konijnen     46
+#> 28:                    Parelvederkruid     51
+#> 29:                           Konijnen     47
+#> 30:               gedomesticeerde gans     47
 #> 31:                   Grote Waternavel     32
 #> 32:           Mantsjoerese wilde rijst     19
 #> 33:         Aziatische hoornaar actie      17
