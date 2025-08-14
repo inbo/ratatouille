@@ -67,10 +67,14 @@ get_objects <- function(object_ids = list_object_ids(),
     }) |>
     # Set capacity of API: handle capacity outstanding requests, then wait for
     # requests to finish
-    purrr::map( ~ httr2::req_throttle(.x,
-                                      capacity = getOption(
-                                        "ratatouille.RATO_API_CAPACITY")
-                                      )) |>
+    purrr::map(\(req){
+      httr2::req_throttle(
+        req,
+        capacity = as.numeric(Sys.getenv("RATO_API_CAPACITY",
+          unset = getOption("ratatouille.RATO_API_CAPACITY")
+        ))
+      )
+    }) |>
     # max_tries needs to be 2 for req_parallel
     purrr::map(~ httr2::req_retry(.x, max_tries = 3))
 
