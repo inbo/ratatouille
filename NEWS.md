@@ -1,3 +1,5 @@
+# ratatouille (development version)
+
 # ratatouille 1.0.1
 - `magrittr` is no longer a direct dependency, the package now uses base pipes 
 `|>` internally. (#41)
