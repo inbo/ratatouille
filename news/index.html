@@ -34,18 +34,15 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="ratatouille-development-version">ratatouille (development version)<a class="anchor" aria-label="anchor" href="#ratatouille-development-version"></a></h2>
-</div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.1" id="ratatouille-101">ratatouille 1.0.1<a class="anchor" aria-label="anchor" href="#ratatouille-101"></a></h2>
-<ul><li>
+<ul><li>Fixed bug where errors from the RATO ArcGIS REST API were not properly returned as R errors, but instead caused a cryptic error without any informative message. (<a href="https://github.com/inbo/ratatouille/issues/46" class="external-link">#46</a>) # ratatouille 1.0.1</li>
+<li>
 <code>magrittr</code> is no longer a direct dependency, the package now uses base pipes <code>|&gt;</code> internally. (<a href="https://github.com/inbo/ratatouille/issues/41" class="external-link">#41</a>)</li>
 <li>The RATO REST API capacity can now be set with an <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options()</a></code> or by setting the environmental variable <code>RATO_API_CAPACITY</code>. (<a href="https://github.com/inbo/ratatouille/issues/43" class="external-link">#43</a>) # ratatouille 1.0.0</li>
 <li>Add <code><a href="../reference/ratatouille.html">ratatouille()</a></code>, a function to fetch all available invasive species data from RATO in a single function call. (<a href="https://github.com/inbo/ratatouille/issues/36" class="external-link">#36</a>)</li>
 <li>All functions will now retry failed requests, when fetching objects from RATO <code><a href="../reference/ratatouille.html">ratatouille()</a></code> will throttle after 1000 outstanding requests. (<a href="https://github.com/inbo/ratatouille/issues/36" class="external-link">#36</a>, <a href="https://github.com/inbo/ratatouille/issues/37" class="external-link">#37</a>)</li>
 <li>Add package wide options <code>ratatouille.rato_expires_minutes</code>, default 5 minutes and <code>ratatouille.cache_max_age_secs</code>, default 150 seconds. To allow easy modification of the cache behaviour. (<a href="https://github.com/inbo/ratatouille/issues/36" class="external-link">#36</a>)</li>
 </ul></div>
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
-    </nav></aside></div>
+  </main></div>
 
 
     <footer><div class="pkgdown-footer-left">
