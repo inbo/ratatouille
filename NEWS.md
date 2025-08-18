@@ -1,5 +1,7 @@
 # ratatouille (development version)
-
+- Fixed bug where errors from the RATO ArcGIS REST API were not properly 
+returned as R errors, but instead caused a cryptic error without any 
+informative message. (#46)
 # ratatouille 1.0.1
 - `magrittr` is no longer a direct dependency, the package now uses base pipes 
 `|>` internally. (#41)
