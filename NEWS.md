@@ -1,4 +1,4 @@
-# ratatouille (development version)
+# ratatouille 1.0.2
 - Fixed bug where errors from the RATO ArcGIS REST API were not properly 
 returned as R errors, but instead caused a cryptic error without any 
 informative message. (#46)
