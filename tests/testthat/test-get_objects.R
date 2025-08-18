@@ -55,7 +55,16 @@ test_that("get_objects() returns POSIXct dates and not time since 1970",{
 test_that("get_objects() can return API error messages", {
   expect_error(
     get_objects(object_ids = "not an object id"),
-    regexp = "Failed to execute query.",
-    fixed = TRUE
+    regexp = "Unable to complete operation.",
+    fixed = TRUE,
+    class = "ratatouille.api_returned_error"
   )
+  
+  expect_error(
+    get_objects(object_ids = c(2004, "not an object id")),
+    regexp = "Unable to complete operation.",
+    fixed = TRUE,
+    class = "ratatouille.api_returned_error"
+  )
+  
 })
