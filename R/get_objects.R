@@ -87,12 +87,20 @@ get_objects <- function(object_ids = list_object_ids(),
     purrr::map(httr2::resp_body_json)
 
   # Forward any error messages
-  assertthat::assert_that(
-    all(purrr::map_lgl(objects_response, "error", "message", .default = TRUE)),
-    msg = purrr::map(objects_response, "error", "message") |>
-      purrr::compact() |>
-      unique()
-  )
+  errors_returned <- 
+    purrr::map_lgl(objects_response, ~"error" %in% names(.x))
+  if (any(errors_returned)) {
+    rlang::abort(
+      message = c(
+        purrr::map_chr(objects_response, \(obj) {
+          as.character(purrr::pluck(obj, "error", "code"))
+        }),
+        "x" = purrr::map_chr(objects_response, list("error", "message")),
+        "i" = paste(purrr::map(objects_response, list("error")))
+      ),
+      class = "ratatouille.api_returned_error"
+    )
+  }
 
   # Get the parts of the response we want
 
