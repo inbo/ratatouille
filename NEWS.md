@@ -1,5 +1,7 @@
 # ratatouille (development version)
-
+- Fixed bug where if the RATO ArcGIS REST API returned an error message as part 
+of the response object, ratatouille() would fail cryptically if any other parts 
+of the query succeeded. (#50)
 # ratatouille 1.0.2
 - Fixed bug where errors from the RATO ArcGIS REST API were not properly 
 returned as R errors, but instead caused a cryptic error without any 
