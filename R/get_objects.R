@@ -90,13 +90,15 @@ get_objects <- function(object_ids = list_object_ids(),
   errors_returned <- 
     purrr::map_lgl(objects_response, ~"error" %in% names(.x))
   if (any(errors_returned)) {
+    objects_with_error <- 
+      purrr::keep(objects_response, ~ "error" %in% names(.x))
     rlang::abort(
       message = c(
-        purrr::map_chr(objects_response, \(obj) {
+        purrr::map_chr(objects_with_error, \(obj) {
           as.character(purrr::pluck(obj, "error", "code"))
         }),
-        "x" = purrr::map_chr(objects_response, list("error", "message")),
-        "i" = paste(purrr::map(objects_response, list("error")))
+        "x" = purrr::map_chr(objects_with_error, list("error", "message")),
+        "i" = paste(purrr::map(objects_with_error, list("error")))
       ),
       class = "ratatouille.api_returned_error"
     )
