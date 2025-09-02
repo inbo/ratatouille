@@ -52,7 +52,18 @@ default RATO data is fetched.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Passed on to internal helpers.</p></dd>
+<dd><p>Arguments passed on to <code><a href="get_objects.html">get_objects</a></code></p><dl><dt><code>object_ids</code></dt>
+<dd><p>Vector of object_ids, will be converted to character.</p></dd>
+
+    <dt><code>batch_size</code></dt>
+<dd><p>Number of objects to request per API call, default is 50.
+Setting this to a lower number will result in more API calls, but will also
+reduce the risk of timeouts or errors when requesting large datasets. When
+set to a higher number, the API may timeout or return an error if the
+dataset is too large.</p></dd>
+
+
+</dl></dd>
 
 </dl></div>
     <div class="section level2">

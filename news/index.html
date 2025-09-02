@@ -34,10 +34,10 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="ratatouille-development-version">ratatouille (development version)<a class="anchor" aria-label="anchor" href="#ratatouille-development-version"></a></h2>
-</div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.3" id="ratatouille-103">ratatouille 1.0.3<a class="anchor" aria-label="anchor" href="#ratatouille-103"></a></h2>
-<ul><li>Fixed bug where if the RATO ArcGIS REST API returned an error message as part of the response object, ratatouille() would fail cryptically if any other parts of the query succeeded. (<a href="https://github.com/inbo/ratatouille/issues/50" class="external-link">#50</a>) # ratatouille 1.0.2</li>
+<ul><li>
+<code><a href="../reference/ratatouille.html">ratatouille()</a></code> now always returns all records for the specified source. (<a href="https://github.com/inbo/ratatouille/issues/53" class="external-link">#53</a>)</li>
+<li>Fixed a bug where the token would expire (not be refreshed) if a query took longer than the token expiry time. (<a href="https://github.com/inbo/ratatouille/issues/53" class="external-link">#53</a>) # ratatouille 1.0.3</li>
+<li>Fixed bug where if the RATO ArcGIS REST API returned an error message as part of the response object, ratatouille() would fail cryptically if any other parts of the query succeeded. (<a href="https://github.com/inbo/ratatouille/issues/50" class="external-link">#50</a>) # ratatouille 1.0.2</li>
 <li>Fixed bug where errors from the RATO ArcGIS REST API were not properly returned as R errors, but instead caused a cryptic error without any informative message. (<a href="https://github.com/inbo/ratatouille/issues/46" class="external-link">#46</a>) # ratatouille 1.0.1</li>
 <li>
 <code>magrittr</code> is no longer a direct dependency, the package now uses base pipes <code>|&gt;</code> internally. (<a href="https://github.com/inbo/ratatouille/issues/41" class="external-link">#41</a>)</li>
@@ -46,8 +46,7 @@
 <li>All functions will now retry failed requests, when fetching objects from RATO <code><a href="../reference/ratatouille.html">ratatouille()</a></code> will throttle after 1000 outstanding requests. (<a href="https://github.com/inbo/ratatouille/issues/36" class="external-link">#36</a>, <a href="https://github.com/inbo/ratatouille/issues/37" class="external-link">#37</a>)</li>
 <li>Add package wide options <code>ratatouille.rato_expires_minutes</code>, default 5 minutes and <code>ratatouille.cache_max_age_secs</code>, default 150 seconds. To allow easy modification of the cache behaviour. (<a href="https://github.com/inbo/ratatouille/issues/36" class="external-link">#36</a>)</li>
 </ul></div>
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
-    </nav></aside></div>
+  </main></div>
 
 
     <footer><div class="pkgdown-footer-left">
