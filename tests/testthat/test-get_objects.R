@@ -33,7 +33,7 @@ test_that("get_objects() warns for batch sizes above 50", {
   object_ids <- sample(list_object_ids(), size = 25)
 
   expect_warning(
-    get_objects(object_ids, batch_size = 51),
+    get_objects(object_ids, batch_size = 105),
     regexp = "Batch size is set to a higher than default value"
   )
 })
