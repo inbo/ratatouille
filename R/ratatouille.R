@@ -33,7 +33,7 @@ ratatouille <- function(source = c("rato"),
       split(object_ids, ceiling(seq_along(object_ids) / internal_batch_size))
 
     batched_query_results <-
-      batched_ids %>%
+      batched_ids |>
       purrr::map(\(object_ids) get_objects(object_ids,
                                            token = get_token(),
                                            ...),

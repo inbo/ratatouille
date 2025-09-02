@@ -1,4 +1,4 @@
-# ratatouille (development version)
+# ratatouille 1.0.4
 - `ratatouille()` now always returns all records for the specified source. (#53)
 - Fixed a bug where the token would expire (not be refreshed) if a query took 
 longer than the token expiry time. (#53)

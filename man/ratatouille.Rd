@@ -13,7 +13,6 @@ default RATO data is fetched.}
 \item{...}{
   Arguments passed on to \code{\link[=get_objects]{get_objects}}
   \describe{
-    \item{\code{object_ids}}{Vector of object_ids, will be converted to character.}
     \item{\code{batch_size}}{Number of objects to request per API call, default is 50.
 Setting this to a lower number will result in more API calls, but will also
 reduce the risk of timeouts or errors when requesting large datasets. When
@@ -26,7 +25,10 @@ A data.frame containing the raw invasive species data from the
 selected source.
 }
 \description{
-Fetch raw invasive species data
+This function fetches the raw invasive species data from the specified
+source. It supports fetching data from RATO (the default) and other sources
+as they become available. All records from a source are returned, to fetch
+specific records see \code{\link[=get_objects]{get_objects()}}.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
