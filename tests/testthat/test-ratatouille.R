@@ -1,7 +1,9 @@
 # Don't actually get all records for tests: mock listing function to only return
 # 50 random records instead of all
+random_object_ids <- sample(list_object_ids(), size = 50)
+
 local_mocked_bindings(
-  list_object_ids = function(...) {sample(list_object_ids(...), size = 50)}
+  list_object_ids = function(...) random_object_ids
 )
 
 test_that("ratatouille supports fetching data from rato", {
