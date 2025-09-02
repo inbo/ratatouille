@@ -1,12 +1,18 @@
+# Don't actually get all records for tests: mock listing function to only return
+# 50 random records instead of all
+random_object_ids <- sample(list_object_ids(), size = 50)
+
+local_mocked_bindings(
+  list_object_ids = function(...) random_object_ids
+)
+
 test_that("ratatouille supports fetching data from rato", {
   skip_if_offline(host = "gis.oost-vlaanderen.be")
   skip_if(Sys.getenv("RATO_USER") == "")
   skip_if(Sys.getenv("RATO_PWD") == "")
 
-  # Select a subset of records to retreive: too many causes trouble on CI
-  my_object_ids <- sample(list_object_ids(), size = 50)
   expect_s3_class(
-    ratatouille(source = "rato", object_ids = my_object_ids),
+    ratatouille(source = "rato"),
     "data.frame"
   )
 })
@@ -19,11 +25,8 @@ test_that("ratatouille returns error on invalid source", {
 })
 
 test_that("ratatouille can pass on arguments to its internal helpers", {
-  my_object_ids <- sample(list_object_ids(), size = 5)
-  
   expect_s3_class(
-    ratatouille(object_ids = my_object_ids,
-                batch_size = 1),
+    ratatouille(batch_size = 1),
     "data.frame"
   )
 })

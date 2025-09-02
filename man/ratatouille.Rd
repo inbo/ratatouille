@@ -10,7 +10,16 @@ ratatouille(source = c("rato"), ...)
 \item{source}{Character string indicating the source of the data to fetch. By
 default RATO data is fetched.}
 
-\item{...}{Passed on to internal helpers.}
+\item{...}{
+  Arguments passed on to \code{\link[=get_objects]{get_objects}}
+  \describe{
+    \item{\code{object_ids}}{Vector of object_ids, will be converted to character.}
+    \item{\code{batch_size}}{Number of objects to request per API call, default is 50.
+Setting this to a lower number will result in more API calls, but will also
+reduce the risk of timeouts or errors when requesting large datasets. When
+set to a higher number, the API may timeout or return an error if the
+dataset is too large.}
+  }}
 }
 \value{
 A data.frame containing the raw invasive species data from the
