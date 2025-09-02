@@ -15,20 +15,23 @@
 ratatouille <- function(source = c("rato"),
                         object_ids = list_object_ids(),
                         ...) {
-  
-  # Internally batch requests per 1000 records, these are processed in parallel.
-  # If too many requests are batched, the token may expire before the requests
-  # finish.
-  internal_batch_size <- 1000
-  batched_ids <-
-    split(object_ids, ceiling(seq_along(object_ids) / internal_batch_size))
-  
-  batched_query_results <- 
-    batched_ids %>% 
-    purrr::map(\(object_ids) get_objects(object_ids, token = get_token()),
-               .progress = FALSE)
+  source <- rlang::arg_match(source)
 
-  raw_data <- purrr::list_rbind(batched_query_results)
-  
+  if (source %in% c("rato", "west-vlaanderen")) {
+    # Internally batch requests per 1000 records, these are processed in
+    # parallel. If too many requests are batched, the token may expire before
+    # the requests finish.
+    internal_batch_size <- 1000
+    batched_ids <-
+      split(object_ids, ceiling(seq_along(object_ids) / internal_batch_size))
+
+    batched_query_results <-
+      batched_ids %>%
+      purrr::map(\(object_ids) get_objects(object_ids, token = get_token()),
+                 .progress = TRUE)
+
+    raw_data <- purrr::list_rbind(batched_query_results)
+  }
+
   return(raw_data)
 }
