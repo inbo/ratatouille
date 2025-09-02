@@ -20,7 +20,7 @@ ratatouille <- function(source = c("rato"),
   if (source %in% c("rato", "west-vlaanderen")) {
     # Internally batch requests per 1000 records, these are processed in
     # parallel. If too many requests are batched, the token may expire before
-    # the requests finish.
+    # the requests finish. NOTE: get_objects() uses further batching.
     internal_batch_size <- 1000
     batched_ids <-
       split(object_ids, ceiling(seq_along(object_ids) / internal_batch_size))
