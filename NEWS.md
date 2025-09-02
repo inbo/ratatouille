@@ -1,5 +1,7 @@
 # ratatouille (development version)
-
+- `ratatouille()` now always returns all records for the specified source. (#53)
+- Fixed a bug where the token would expire (not be refreshed) if a query took 
+longer than the token expiry time. (#53)
 # ratatouille 1.0.3
 - Fixed bug where if the RATO ArcGIS REST API returned an error message as part 
 of the response object, ratatouille() would fail cryptically if any other parts 
