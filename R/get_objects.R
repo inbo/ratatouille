@@ -48,7 +48,8 @@ get_objects <- function(object_ids = list_object_ids(),
     purrr::map(
       batched_ids,
       \(ids, token_to_use = token) {
-        # Collate the object id's to query and format them as expected for the API
+        # Collate the object id's to query and format them as expected for the
+        # API
         object_id_query <- glue::glue(
           "OBJECTID IN ({object_ids_collated})",
           object_ids_collated = glue::glue_collapse(ids, sep = ",")
