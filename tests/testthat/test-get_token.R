@@ -35,3 +35,8 @@ test_that("get_token() returns error on missing username/password", {
     class = "rato_no_pwd_provided"
   )
 })
+
+test_that("get_token() supports source argument as enum", {
+  
+  
+})
