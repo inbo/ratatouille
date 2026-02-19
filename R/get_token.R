@@ -20,6 +20,9 @@
 get_token <- function(source = c("rato", "wfl"),
                       username = Sys.getenv("RATO_USER"),
                       password = Sys.getenv("RATO_PWD")) {
+  
+  source <- rlang::arg_match(source)
+  
   # Check that username and password are strings if provided
   assertthat::assert_that(assertthat::is.string(username))
   assertthat::assert_that(assertthat::is.string(password))
