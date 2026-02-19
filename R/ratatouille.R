@@ -32,7 +32,8 @@ ratatouille <- function(source = c("rato", "wfl"), ...) {
   
   batched_query_results <-
     batched_ids |>
-    purrr::map(\(object_ids) get_objects(object_ids, token = get_token(source = source), ...),
+    purrr::map(\(object_ids) get_objects(object_ids,
+                                         token = get_token(source = source), ...),
                .progress = TRUE)
   
   # Return raw data
