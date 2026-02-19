@@ -23,6 +23,7 @@ list_object_ids <- function(source = c("rato", "wfl")) {
       "0",
       "query") |>
     httr2::req_url_query(
+      # Query all objects, WHERE true
       where = "1=1",
       returnIdsOnly = "true",
       f = "pjson",
