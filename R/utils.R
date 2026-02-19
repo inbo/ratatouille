@@ -33,8 +33,8 @@ as_datetime <- function(miliseconds, origin = "1970-01-01", ...) {
 #'   source.
 #'
 #' @examples
-#' get_api_url("rato")
-get_api_url <- function(source = c("rato", "wfl")){
+#' get_api_domain("rato")
+get_api_domain <- function(source = c("rato", "wfl")){
   source <- rlang::arg_match(source)
   dplyr::recode_values(
     source,

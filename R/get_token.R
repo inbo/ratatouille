@@ -42,7 +42,7 @@ get_token <- function(source = c("rato", "wfl"),
 
   # Build request for the API
   token_request <-
-    get_api_url(source) |>
+    get_api_domain(source) |>
     httr2::request() |>
     httr2::req_url_path("portal", "sharing", "rest", "generateToken") |>
     httr2::req_body_form(
@@ -51,7 +51,7 @@ get_token <- function(source = c("rato", "wfl"),
       # NOTE MUST USE CLIENT `referer`, otherwise you'll get a token but it will
       # not work!
       client = "referer",
-      referer = get_api_url(source),
+      referer = get_api_domain(source),
       expiration = getOption("ratatouille.rato_expires_minutes"),
       f = "json"
     ) |> 
