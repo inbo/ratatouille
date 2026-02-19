@@ -58,7 +58,9 @@ get_objects <- function(object_ids = list_object_ids(),
         
       httr2::request(get_api_domain(source)) |>
       # Components of the API endpoint and the table to query
-        httr2::req_url_path_append(get_api_basepath(source),
+        httr2::req_url_path_append(get_api_basepath(source, context = "server"),
+                                   "rest",
+                                   "services",
                                    get_default_resource(source)) |>
         # Components of the object query endpoint itself
         httr2::req_url_path_append(
