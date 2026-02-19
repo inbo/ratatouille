@@ -12,8 +12,6 @@
 list_object_ids <- function(source = c("rato", "wfl")) {
   
   source <- rlang::arg_match(source)
-  # Get an access token for the API
-  token <- get_token(source)
   
   # Build the request by querying all objects, but only return ids.
   object_ids_request <-
@@ -28,7 +26,7 @@ list_object_ids <- function(source = c("rato", "wfl")) {
       where = "1=1",
       returnIdsOnly = "true",
       f = "pjson",
-      token = token
+      token = get_token(source)
     ) |> 
     httr2::req_retry(max_tries = 3)
   
