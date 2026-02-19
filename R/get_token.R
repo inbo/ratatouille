@@ -51,7 +51,7 @@ get_token <- function(source = c("rato", "wfl"),
       # NOTE MUST USE CLIENT `referer`, otherwise you'll get a token but it will
       # not work!
       client = "referer",
-      referer = "https://gis.oost-vlaanderen.be",
+      referer = get_api_url(source),
       expiration = getOption("ratatouille.rato_expires_minutes"),
       f = "json"
     ) |> 
