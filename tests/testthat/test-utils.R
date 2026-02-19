@@ -26,3 +26,21 @@ test_that("as_datetime() succesfully converts a few known examples", {
     )
   )
 })
+
+test_that("get_api_url() returns correct API base urls", {
+  expect_identical(
+    get_api_url("rato"),
+    "https://gis.oost-vlaanderen.be"
+  )
+  expect_identical(
+    get_api_url("wfl"),
+    "https://gwadmin.west-vlaanderen.be"
+  )
+})
+
+test_that("get_api_url() returns error on multiple sources", {
+  expect_error(
+    get_api_url(c("rato", "wfl")),
+    class = "rlang_error"
+  )
+})

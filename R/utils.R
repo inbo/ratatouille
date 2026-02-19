@@ -21,6 +21,29 @@ as_datetime <- function(miliseconds, origin = "1970-01-01", ...) {
   as.POSIXct(miliseconds / 1000, origin = origin, tz = "UTC", ...)
 }
 
+#' Get API base url for a given source
+#'
+#' This function takes a source enum and returns the corresponding API base url.
+#' This allows other functions to use this function to determine which API url
+#' to send requests to based on the source specified.
+#'
+#' @param source Character string of the source enum to look up the API url for.
+#'
+#' @returns Character string of the API base url corresponding to the specified
+#'   source.
+#'
+#' @examples
+#' get_api_url("rato")
+get_api_url <- function(source = c("rato", "wfl")){
+  source <- rlang::arg_match(source)
+  dplyr::recode_values(
+    source,
+    "rato" ~ "https://gis.oost-vlaanderen.be",
+    "wfl" ~ "https://gwadmin.west-vlaanderen.be",
+    unmatched = "error"
+  )
+}
+
 #' Create .onLoad function to set Package options and memoisation behavior on
 #' load
 #'

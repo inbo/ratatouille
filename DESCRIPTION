@@ -21,7 +21,7 @@ Depends:
 Imports: 
     assertthat,
     cachem,
-    dplyr,
+    dplyr (>= 1.2.0),
     glue,
     httr2 (>= 1.2.1),
     memoise,
