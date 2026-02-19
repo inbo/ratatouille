@@ -40,7 +40,10 @@ get_token <- function(source = c("rato", "wfl")) {
   token_request <-
     get_api_domain(source) |>
     httr2::request() |>
-    httr2::req_url_path("portal", "sharing", "rest", "generateToken") |>
+    httr2::req_url_path(get_api_basepath(source, "portal"),
+                        "sharing",
+                        "rest",
+                        "generateToken") |>
     httr2::req_body_form(
       username = Sys.getenv(toupper(paste0(source,"_USER"))),
       password = Sys.getenv(toupper(paste0(source,"_PWD"))),
