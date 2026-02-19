@@ -40,3 +40,15 @@ test_that("get_token() supports source argument as enum", {
   
   
 })
+
+test_that("get_token() does not support multiple sources",{
+  # Only one token can be fetched at a time.
+})
+
+test_that("get_token() can return token for RATO API", {
+  
+})
+
+test_that("get_token() can return token for West Flanders API", {
+  
+})
