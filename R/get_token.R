@@ -10,13 +10,15 @@
 #' You can set a different expiry duration by changing the
 #' `ratatouille.rato_expires_minutes` option with `options()`
 #'
+#' @inheritParams ratatouille
 #' @param username ArcGIS Enterprise username
 #' @param password ArcGIS Enterprise password
 #'
 #' @return Character. An access token for future API calls.
 #'
 #' @export
-get_token <- function(username = Sys.getenv("RATO_USER"),
+get_token <- function(source = c("rato", "wfl"),
+                      username = Sys.getenv("RATO_USER"),
                       password = Sys.getenv("RATO_PWD")) {
   # Check that username and password are strings if provided
   assertthat::assert_that(assertthat::is.string(username))
