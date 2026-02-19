@@ -15,7 +15,7 @@ list_object_ids <- function(source = c("rato", "wfl")) {
   
   # Build the request by querying all objects, but only return ids.
   object_ids_request <-
-    httr2::request(get_api_basepath(source)) |>
+    httr2::request(get_api_domain(source)) |>
     # Components of the API endpoint
     httr2::req_url_path_append(get_api_basepath(source, "server"),
                                "rest",
