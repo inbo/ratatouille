@@ -15,7 +15,12 @@ list_object_ids <- function(source = c("rato", "wfl")) {
   
   # Build the request by querying all objects, but only return ids.
   object_ids_request <-
-    httr2::request("https://gis.oost-vlaanderen.be/server/rest/services/") |>
+    httr2::request(get_api_basepath(source)) |>
+    # Components of the API endpoint
+    httr2::req_url_path_append(get_api_basepath(source, "server"),
+                               "rest",
+                               "services") |>
+    # Components of the table to query
     httr2::req_url_path_append(
       "RATO2",
       "RATO2_Dossiers_Publiek",
