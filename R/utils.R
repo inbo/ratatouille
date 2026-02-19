@@ -46,6 +46,40 @@ get_api_domain <- function(source = c("rato", "wfl")){
   )
 }
 
+#' Get API base path for a given source and context
+#'
+#' Depending on the source, the first part of the url path is different. This
+#' helper allows other functions to determine which path to use based on the
+#' source and context specified. The context argument allows switching between
+#' the portal and service (server) components of ArcGIS Enterprise. The portal
+#' component is used for authentication, the service (server) component is used
+#' to place queries.
+#'
+#' @param source Character string of the source enum to look up the API path
+#'   for.
+#' @param context Character string of the context enum to look up the API path
+#'   for. Either
+#'
+#' @returns Character string of the API base path corresponding to the specified
+#'   source and context.
+#'
+#' @examples
+#' get_api_basepath("wfl", "server")
+#' @family utils
+#' @noRd
+get_api_basepath <- function(source = c("rato", "wfl"),
+                             context = c("server", "portal")) {
+  source <- rlang::arg_match(source)
+  context <- rlang::arg_match(context)
+  
+  dplyr::recode_values(
+    source,
+    "rato" ~ context,
+    "wfl" ~ paste0("gw", context),
+    unmatched = "error"
+  )
+}
+
 #' Create .onLoad function to set Package options and memoisation behavior on
 #' load
 #'
