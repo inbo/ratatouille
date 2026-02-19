@@ -27,7 +27,7 @@ get_token <- function(source = c("rato", "wfl"),
   assertthat::assert_that(assertthat::is.string(username))
   assertthat::assert_that(assertthat::is.string(password))
 
-  # If the pwd variable isn't set, prompt for password when session interactive
+  # Fail early if no credentials are set.
   if (password == "" || username == "") {
     rlang::abort(
       message =
