@@ -11,15 +11,11 @@
 #' `ratatouille.rato_expires_minutes` option with `options()`
 #'
 #' @inheritParams ratatouille
-#' @param username ArcGIS Enterprise username
-#' @param password ArcGIS Enterprise password
 #'
 #' @return Character. An access token for future API calls.
 #'
 #' @export
-get_token <- function(source = c("rato", "wfl"),
-                      username = Sys.getenv("RATO_USER"),
-                      password = Sys.getenv("RATO_PWD")) {
+get_token <- function(source = c("rato", "wfl")) {
   
   source <- rlang::arg_match(source)
   
@@ -46,8 +42,8 @@ get_token <- function(source = c("rato", "wfl"),
     httr2::request() |>
     httr2::req_url_path("portal", "sharing", "rest", "generateToken") |>
     httr2::req_body_form(
-      username = username,
-      password = password,
+      username = Sys.getenv(toupper(paste0(source,"_USER"))),
+      password = Sys.getenv(toupper(paste0(source,"_PWD"))),
       # NOTE MUST USE CLIENT `referer`, otherwise you'll get a token but it will
       # not work!
       client = "referer",
