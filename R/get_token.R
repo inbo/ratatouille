@@ -42,7 +42,8 @@ get_token <- function(source = c("rato", "wfl"),
 
   # Build request for the API
   token_request <-
-    httr2::request("https://gis.oost-vlaanderen.be") |>
+    get_api_url(source)
+    httr2::request() |>
     httr2::req_url_path("portal", "sharing", "rest", "generateToken") |>
     httr2::req_body_form(
       username = username,
