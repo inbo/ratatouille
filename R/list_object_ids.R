@@ -9,8 +9,12 @@
 #'
 #' @return Integer vector of (all) object ids.
 #' @export
-list_object_ids <- function(token = get_token()) {
-
+list_object_ids <- function(source = c("rato", "wfl")) {
+  
+  source <- rlang::arg_match(source)
+  # Get an access token for the API
+  token <- get_token(source)
+  
   # Build the request by querying all objects, but only return ids.
   object_ids_request <-
     httr2::request("https://gis.oost-vlaanderen.be/server/rest/services/") |>
