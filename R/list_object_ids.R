@@ -22,8 +22,7 @@ list_object_ids <- function(source = c("rato", "wfl")) {
                                "services") |>
     # Components of the table to query
     httr2::req_url_path_append(
-      "RATO2",
-      "RATO2_Dossiers_Publiek",
+      get_default_resource(source),
       "MapServer",
       "0",
       "query") |>

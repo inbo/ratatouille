@@ -21,8 +21,10 @@
 #' @return tibble of requested objects.
 #' @export
 get_objects <- function(object_ids = list_object_ids(),
-                        token = get_token(),
+                        source = c("rato", "wfl"),
                         batch_size = 100) {
+  source <- rlang::arg_match(source)
+  
   # Assert that objects were requested
   assertthat::assert_that(assertthat::not_empty(object_ids))
 
@@ -55,10 +57,12 @@ get_objects <- function(object_ids = list_object_ids(),
           object_ids_collated = glue::glue_collapse(ids, sep = ",")
         )
         
-      httr2::request("https://gis.oost-vlaanderen.be/server/rest/services/") |>
+      httr2::request(get_api_domain(source)) |>
+      # Components of the API endpoint and the table to query
+        httr2::req_url_path_append(get_api_basepath(source),
+                                   get_default_resource(source)) |>
+        # Components of the object query endpoint itself
         httr2::req_url_path_append(
-          "RATO2",
-          "RATO2_Dossiers_Publiek",
           "MapServer",
           "0",
           "query"
