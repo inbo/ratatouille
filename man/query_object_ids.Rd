@@ -5,14 +5,14 @@
 \title{Query object ids for a resource on a ArcGIS Enterprise MapServer}
 \usage{
 query_object_ids(
-  source = c("rato", "wfl"),
+  source,
   resource = get_default_resource(source),
   query = "1=1"
 )
 }
 \arguments{
 \item{source}{(Required) Character string indicating the source of the data
-to fetch. Currently supported data sources:\code{rato} will fetch RATO data and
+to fetch. Currently supported data sources: \code{rato} will fetch RATO data and
 \code{wfl} will fetch data from the province of West Flanders.}
 
 \item{resource}{The resource to query. Defaults to the default resource for
@@ -34,6 +34,7 @@ on a ArcGIS Enterprise.
 }
 \examples{
 query_object_ids("wfl",
-                 query = "Gemeente='Koekelare'")
-  
+  query = "Gemeente='Koekelare'"
+)
+
 }

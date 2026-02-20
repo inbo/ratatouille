@@ -13,7 +13,7 @@
 #' @return Character. An access token for future API calls.
 #'
 #' @export
-get_token <- function(source = c("rato", "wfl")) {
+get_token <- function(source) {
   check_source(source)
 
   # Check if credentials are set as environemental variables

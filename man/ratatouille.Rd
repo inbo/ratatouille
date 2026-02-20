@@ -4,11 +4,11 @@
 \alias{ratatouille}
 \title{Fetch raw invasive species data}
 \usage{
-ratatouille(source = c("rato", "wfl"), ...)
+ratatouille(source, ...)
 }
 \arguments{
 \item{source}{(Required) Character string indicating the source of the data
-to fetch. Currently supported data sources:\code{rato} will fetch RATO data and
+to fetch. Currently supported data sources: \code{rato} will fetch RATO data and
 \code{wfl} will fetch data from the province of West Flanders.}
 
 \item{...}{
@@ -33,6 +33,6 @@ specific records see \code{\link[=get_objects]{get_objects()}}.
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
-ratatouille()
+ratatouille(source = "rato")
 \dontshow{\}) # examplesIf}
 }

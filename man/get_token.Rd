@@ -4,11 +4,11 @@
 \alias{get_token}
 \title{Request an access token from the GIS API services}
 \usage{
-get_token(source = c("rato", "wfl"))
+get_token(source)
 }
 \arguments{
 \item{source}{(Required) Character string indicating the source of the data
-to fetch. Currently supported data sources:\code{rato} will fetch RATO data and
+to fetch. Currently supported data sources: \code{rato} will fetch RATO data and
 \code{wfl} will fetch data from the province of West Flanders.}
 }
 \value{

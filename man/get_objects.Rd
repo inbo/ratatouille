@@ -5,19 +5,18 @@
 \title{Get objects from an ArcGIS Enterprise environment via the REST API}
 \usage{
 get_objects(
-  object_ids = list_object_ids(),
-  source = c("rato", "wfl"),
+  object_ids,
+  source,
   resource = get_default_resource(source),
   batch_size = 100
 )
 }
 \arguments{
 \item{object_ids}{Vector of object_ids for a specific resource, these allow
-you to fetch a specific database record. By default, all records are
-returned.}
+you to fetch a specific database record.}
 
 \item{source}{(Required) Character string indicating the source of the data
-to fetch. Currently supported data sources:\code{rato} will fetch RATO data and
+to fetch. Currently supported data sources: \code{rato} will fetch RATO data and
 \code{wfl} will fetch data from the province of West Flanders.}
 
 \item{resource}{The resource to query. Defaults to the default resource for

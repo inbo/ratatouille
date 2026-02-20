@@ -6,7 +6,7 @@
 #' specific records see [get_objects()].
 #'
 #' @param source (Required) Character string indicating the source of the data
-#'   to fetch. Currently supported data sources:`rato` will fetch RATO data and
+#'   to fetch. Currently supported data sources: `rato` will fetch RATO data and
 #'   `wfl` will fetch data from the province of West Flanders.
 #' @inheritParams get_objects
 #' @inheritDotParams get_objects batch_size
@@ -17,7 +17,7 @@
 #'
 #' @examplesIf interactive()
 #' ratatouille(source = "rato")
-ratatouille <- function(source = c("rato", "wfl"), ...) {
+ratatouille <- function(source, ...) {
   check_source(source)
 
   # ratatouille() always returns all objects.

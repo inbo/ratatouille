@@ -36,7 +36,7 @@ as_datetime <- function(miliseconds, origin = "1970-01-01", ...) {
 #' get_api_domain("rato")
 #' @family utils
 #' @noRd
-get_api_domain <- function(source = c("rato", "wfl")) {
+get_api_domain <- function(source) {
   check_source(source)
 
   dplyr::recode_values(
@@ -68,7 +68,7 @@ get_api_domain <- function(source = c("rato", "wfl")) {
 #' get_api_basepath("wfl", "server")
 #' @family utils
 #' @noRd
-get_api_basepath <- function(source = c("rato", "wfl"),
+get_api_basepath <- function(source,
                              context = c("server", "portal")) {
   check_source(source)
   context <- rlang::arg_match(context)
@@ -88,7 +88,7 @@ get_api_basepath <- function(source = c("rato", "wfl"),
 #' @returns `TRUE` if credentials are set for a source, otherwise an error.
 #' @family utils
 #' @noRd
-check_credentials <- function(source = c("rato", "wfl")) {
+check_credentials <- function(source) {
   check_source(source)
 
   username <- Sys.getenv(toupper(paste0(source, "_USER")))
@@ -125,8 +125,9 @@ check_credentials <- function(source = c("rato", "wfl")) {
 check_source <- function(source = NULL) {
   if (missing(source)) {
     rlang::abort(
-      "Please specify a source to get the default resource for. 
-      Allowed values are 'rato' or 'wfl'.",
+      c(
+      "Please specify a source to fetch data for.",
+      "Allowed values are 'rato' or 'wfl'."),
       class = "rata_no_source_specified"
     )
   }

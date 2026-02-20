@@ -21,7 +21,7 @@
 #'
 #' @return Integer vector of (all) object ids.
 #' @export
-list_object_ids <- function(source = c("rato", "wfl"),
+list_object_ids <- function(source,
                             resource = get_default_resource(source)) {
   # Query all objects, WHERE true
   query_object_ids(source, resource, "1=1")

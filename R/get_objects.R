@@ -11,8 +11,7 @@
 #'
 #' @inheritParams ratatouille
 #' @param object_ids Vector of object_ids for a specific resource, these allow
-#'   you to fetch a specific database record. By default, all records are
-#'   returned.
+#'   you to fetch a specific database record.
 #' @param resource The resource to query. Defaults to the default resource for
 #'   the given source,
 #' @param batch_size Number of objects to request per API call, default is 100.
@@ -23,9 +22,8 @@
 #'
 #' @return tibble of requested objects.
 #' @export
-get_objects <- function(object_ids = list_object_ids(source = source,
-                                                     resource = resource),
-                        source = c("rato", "wfl"),
+get_objects <- function(object_ids,
+                        source,
                         resource = get_default_resource(source),
                         batch_size = 100) {
   check_source(source)

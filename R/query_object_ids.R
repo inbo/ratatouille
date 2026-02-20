@@ -20,7 +20,7 @@
 #'   query = "Gemeente='Koekelare'"
 #' )
 #'
-query_object_ids <- function(source = c("rato", "wfl"),
+query_object_ids <- function(source,
                              resource = get_default_resource(source),
                              query = "1=1") {
   # Validate input arguments
