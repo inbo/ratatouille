@@ -142,7 +142,7 @@ check_source <- function(source = NULL) {
 #' Create .onLoad function to set Package options and memoisation behavior on
 #' load
 #'
-#' - ratatouille.rato_expires_minutes controls both how long a RATO ArcGIS REST
+#' - ratatouille.token_expires_minutes controls both how long a RATO ArcGIS REST
 #'  API access token should stay valid, and how long it should be cached for 
 #'  (the same duration).
 #' - ratatouille.cache_max_age_secs controls the number of seconds a value 
@@ -153,7 +153,7 @@ check_source <- function(source = NULL) {
   # Package options
   op <- options()
   op.ratatouille <- list(
-    ratatouille.rato_expires_minutes = 5,
+    ratatouille.token_expires_minutes = 5,
     ratatouille.cache_max_age_secs = 150,
     ratatouille.RATO_API_CAPACITY = 750
   )
@@ -165,7 +165,7 @@ check_source <- function(source = NULL) {
   get_token <<- memoise::memoise(get_token,
     # token expires every 5 minutes
     cache = cachem::cache_mem(
-      max_age = 60 * getOption("ratatouille.rato_expires_minutes")
+      max_age = 60 * getOption("ratatouille.token_expires_minutes")
     )
   )
 

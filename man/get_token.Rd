@@ -22,5 +22,5 @@ the data sources directly.
 \details{
 By default tokens expire every 5 minutes, and are cached until they expire.
 You can set a different expiry duration by changing the
-\code{ratatouille.rato_expires_minutes} option with \code{options()}
+\code{ratatouille.token_expires_minutes} option with \code{options()}
 }

@@ -6,7 +6,7 @@
 #'
 #' By default tokens expire every 5 minutes, and are cached until they expire.
 #' You can set a different expiry duration by changing the
-#' `ratatouille.rato_expires_minutes` option with `options()`
+#' `ratatouille.token_expires_minutes` option with `options()`
 #'
 #' @inheritParams ratatouille
 #'
@@ -34,7 +34,7 @@ get_token <- function(source = c("rato", "wfl")) {
       # not work!
       client = "referer",
       referer = get_api_domain(source),
-      expiration = getOption("ratatouille.rato_expires_minutes"),
+      expiration = getOption("ratatouille.token_expires_minutes"),
       f = "json"
     ) |> 
     httr2::req_retry(max_tries = 3)
