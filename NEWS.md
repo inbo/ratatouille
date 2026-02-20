@@ -1,6 +1,10 @@
 # ratatouille (development version)
+- ratatouille now also supports fetching management data from the province of West Flanders. 
+A new argument `source` was added to the package functions that allows switching
+between RATO `rato` data and West Flanders `wfl` data.
 - A new function was added: `query_object_ids()` which allows users to query the
-RATO ArcGIS REST API for all object IDs for a given resource within a source. (#31)
+RATO ArcGIS REST API object IDs for a given resource within a source. These 
+objects can then be fetched using `get_objects()` (#31)
 
 # ratatouille 1.0.4
 - `ratatouille()` now always returns all records for the specified source. (#53)
