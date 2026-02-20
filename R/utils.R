@@ -37,7 +37,7 @@ as_datetime <- function(miliseconds, origin = "1970-01-01", ...) {
 #' @family utils
 #' @noRd
 get_api_domain <- function(source = c("rato", "wfl")){
-  source <- rlang::arg_match(source)
+  source <- rlang::arg_match(source, multiple = FALSE)
   dplyr::recode_values(
     source,
     "rato" ~ "https://gis.oost-vlaanderen.be",
@@ -103,6 +103,26 @@ get_default_resource <- function(source = c("rato", "wfl")) {
     "wfl" ~ paste("Ecosystem2", "AGS_ES2_Dossiers_Publiek", sep = "/"),
     unmatched = "error"
   )
+}
+
+check_credentials <- function(username, password){
+  # Check that username and password are strings if provided
+  assertthat::assert_that(assertthat::is.string(username))
+  assertthat::assert_that(assertthat::is.string(password))
+  
+  # Fail early if no credentials are set.
+  if (password == "" || username == "") {
+    rlang::abort(
+      message =
+        c("No username or password provided",
+          paste("i Please provide username/password as arguments or set the as",
+                "environemental variables or via `.Renviron` as `RATO_USER`",
+                "and `RATO_PWD`.")
+        ),
+      class = "rato_no_pwd_provided"
+    )
+  }
+  
 }
 
 #' Create .onLoad function to set Package options and memoisation behavior on
