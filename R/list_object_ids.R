@@ -20,40 +20,8 @@
 #'
 #' @return Integer vector of (all) object ids.
 #' @export
-list_object_ids <- function(source = c("rato", "wfl")) {
-  
-  source <- rlang::arg_match(source)
-  
-  # Build the request by querying all objects, but only return ids.
-  object_ids_request <-
-    httr2::request(get_api_domain(source)) |>
-    # Components of the API endpoint
-    httr2::req_url_path_append(get_api_basepath(source, "server"),
-                               "rest",
-                               "services") |>
-    # Components of the table to query
-    httr2::req_url_path_append(
-      get_default_resource(source),
-      "MapServer",
-      "0",
-      "query") |>
-    httr2::req_url_query(
-      # Query all objects, WHERE true
-      where = "1=1",
-      returnIdsOnly = "true",
-      f = "pjson",
-      token = get_token(source)
-    ) |> 
-    httr2::req_retry(max_tries = 3)
-  
-  # Perform request
-  object_ids_response <- 
-    object_ids_request |> 
-    httr2::req_perform() |>
-    httr2::resp_body_json(check_type = FALSE)
-
-  object_ids <- object_ids_response |>
-    purrr::chuck("objectIds") |>
-    unlist()
-  return(object_ids)
+list_object_ids <- function(source = c("rato", "wfl"),
+                            resource = get_default_resource(source)) {
+  # Query all objects, WHERE true
+  query_object_ids(source, resource, "1=1")
 }
