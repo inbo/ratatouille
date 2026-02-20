@@ -1,4 +1,6 @@
 # ratatouille (development version)
+- A new function was added: `query_object_ids()` which allows users to query the
+RATO ArcGIS REST API for all object IDs for a given resource within a source. (#31)
 
 # ratatouille 1.0.4
 - `ratatouille()` now always returns all records for the specified source. (#53)
