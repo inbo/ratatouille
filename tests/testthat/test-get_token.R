@@ -6,30 +6,46 @@ test_that("get_token() returns token with correct credentials", {
   skip_if(Sys.getenv("RATO_PWD") == "")
 
   expect_type(
-    get_token(),
+    get_token("rato"),
     "character"
   )
 
   # The returned tokens from RATO have a set length
   expect_identical(
-    nchar(get_token()),
+    nchar(get_token("rato")),
     192L
   )
 })
 
 test_that("get_token() supports source argument as enum", {
-  
-  
+  expect_type(
+    get_token(source = "rato"),
+    "character"
+  )
+  expect_type(
+    get_token(source = "wfl"),
+    "character"
+  )
 })
 
 test_that("get_token() does not support multiple sources",{
   # Only one token can be fetched at a time.
+  expect_error(
+    get_token(source = c("rato", "wfl")),
+    class = "rata_multiple_sources"
+  )
 })
 
 test_that("get_token() can return token for RATO API", {
-  
+  expect_type(
+    get_token("rato"),
+    "character"
+  )
 })
 
 test_that("get_token() can return token for West Flanders API", {
-  
+  expect_type(
+    get_token("wfl"),
+    "character"
+  )
 })

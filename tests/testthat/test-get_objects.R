@@ -1,13 +1,13 @@
 test_that("get_objects() can retreive a single object", {
   # Need to be able to connect to API
-  skip_if_offline(host = "gis.oost-vlaanderen.be")
+  skip_if_offline(host = "gwadmin.west-vlaanderen.be")
   # Need to have credentials stored
-  skip_if(Sys.getenv("RATO_USER") == "")
-  skip_if(Sys.getenv("RATO_PWD") == "")
+  skip_if(Sys.getenv("WFL_USER") == "")
+  skip_if(Sys.getenv("WFL_PWD") == "")
 
 
   expect_s3_class(
-    get_objects(list_object_ids()[1]),
+    get_objects(list_object_ids("wfl")[1], source = "wfl"),
     "data.frame"
   )
 })
@@ -20,48 +20,50 @@ test_that("get_objects() returns one row for every input object_id", {
   skip_if(Sys.getenv("RATO_PWD") == "")
 
   # Store 25 random object ids for testing
-  object_ids <- sample(list_object_ids(), size = 25)
+  object_ids <- sample(list_object_ids("rato"), size = 25)
 
   expect_length(
-    get_objects(object_ids)[[1]], # compare length of values of first column
+    # compare length of values of first column
+    get_objects(object_ids, source = "rato")[[1]], 
     length(object_ids)
   )
 })
 
 test_that("get_objects() warns for batch sizes above 50", {
   # Store 25 random object ids for testing
-  object_ids <- sample(list_object_ids(), size = 25)
+  object_ids <- sample(list_object_ids("wfl"), size = 25)
 
   expect_warning(
-    get_objects(object_ids, batch_size = 105),
+    get_objects(object_ids, batch_size = 105, source = "wfl"),
     regexp = "Batch size is set to a higher than default value"
   )
 })
 
 test_that("get_objects() can fallback on dplyr if data.table isn't installed", {
-  # Implement with mocked binding or with withr::with_libpath ?
+  skip("TODO Implement with mocked binding or with withr::with_libpath")
 })
 
 test_that("get_objects() returns POSIXct dates and not time since 1970",{
   # fetch 150 random records
-  rato_obs <-
-    get_objects(object_ids = sample(list_object_ids(), size = 150))
+  wfl_obs <-
+    get_objects(object_ids = sample(list_object_ids("wfl"), size = 150),
+                source = "wfl")
   
-  dplyr::select(rato_obs, dplyr::contains("Datum")) |>
+  dplyr::select(wfl_obs, dplyr::contains("Datum")) |>
     purrr::walk(expect_s3_class, "POSIXct")
   
 })
 
 test_that("get_objects() can return API error messages", {
   expect_error(
-    get_objects(object_ids = "not an object id"),
+    get_objects(object_ids = "not an object id", source = "wfl"),
     regexp = "Unable to complete operation.",
     fixed = TRUE,
     class = "ratatouille.api_returned_error"
   )
   
   expect_error(
-    get_objects(object_ids = c(2004, "not an object id")),
+    get_objects(object_ids = c(2004, "not an object id"), source = "wfl"),
     regexp = "Unable to complete operation.",
     fixed = TRUE,
     class = "ratatouille.api_returned_error"
