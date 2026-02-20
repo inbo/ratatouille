@@ -40,7 +40,13 @@ test_that("get_objects() warns for batch sizes above 50", {
 })
 
 test_that("get_objects() can fallback on dplyr if data.table isn't installed", {
-  skip("TODO Implement with mocked binding or with withr::with_libpath")
+  with_mocked_bindings(
+    expect_s3_class(
+      get_objects(list_object_ids("wfl")[seq(15)], source = "wfl"),
+      "data.frame"
+    ),
+    is_dt_installed = \(x) FALSE
+  )
 })
 
 test_that("get_objects() returns POSIXct dates and not time since 1970",{

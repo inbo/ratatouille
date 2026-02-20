@@ -139,6 +139,21 @@ check_source <- function(source = NULL) {
   TRUE
 }
 
+#' Check if data.table is installed (wrapper of rlang::check_installed)
+#'
+#' This function is a wrapper of `rlang::is_installed` to check if the
+#' `data.table`. This makes it possible to test the fallback via mocking to purr
+#' when data.table is not available.
+#'
+#' @param ... further arguments to be passed to `rlang::is_installed()`.
+#'
+#' @returns `TRUE` if data.table is installed, otherwise `FALSE`.
+#' @family utils
+#' @noRd
+is_dt_installed <- function(...){
+  rlang::is_installed("data.table", ...)
+}
+
 #' Create .onLoad function to set Package options and memoisation behavior on
 #' load
 #'

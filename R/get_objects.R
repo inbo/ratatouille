@@ -129,7 +129,7 @@ get_objects <- function(object_ids = list_object_ids(),
   # data.table is much faster than dplyr (purrr::list_rbind) for large list to
   # df conversion because it uses C internally.
 
-  if (rlang::is_installed("data.table")) {
+  if (is_dt_installed()) {
     objects_df <-
       # data.table will warn for fill (NULL to NA) even if set to TRUE
       suppressWarnings(data.table::rbindlist(objects_attr, fill = TRUE))
