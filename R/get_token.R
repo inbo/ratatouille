@@ -14,7 +14,6 @@
 #'
 #' @export
 get_token <- function(source = c("rato", "wfl")) {
-  
   check_source(source)
 
   # Check if credentials are set as environemental variables
@@ -23,20 +22,22 @@ get_token <- function(source = c("rato", "wfl")) {
   token_request <-
     get_api_domain(source) |>
     httr2::request() |>
-    httr2::req_url_path(get_api_basepath(source, "portal"),
-                        "sharing",
-                        "rest",
-                        "generateToken") |>
+    httr2::req_url_path(
+      get_api_basepath(source, "portal"),
+      "sharing",
+      "rest",
+      "generateToken"
+    ) |>
     httr2::req_body_form(
-      username = Sys.getenv(toupper(paste0(source,"_USER"))),
-      password = Sys.getenv(toupper(paste0(source,"_PWD"))),
+      username = Sys.getenv(toupper(paste0(source, "_USER"))),
+      password = Sys.getenv(toupper(paste0(source, "_PWD"))),
       # NOTE MUST USE CLIENT `referer`, otherwise you'll get a token but it will
       # not work!
       client = "referer",
       referer = get_api_domain(source),
       expiration = getOption("ratatouille.token_expires_minutes"),
       f = "json"
-    ) |> 
+    ) |>
     httr2::req_retry(max_tries = 3)
 
   # Parse the API response
@@ -51,13 +52,17 @@ get_token <- function(source = c("rato", "wfl")) {
   ) {
     # If the API returns an error, forward it.
     rlang::abort(
-      glue::glue(purrr::chuck(token_response, "error", "message"),
-                 purrr::map_chr(
-                   purrr::chuck(token_response, "error", "details"),
-                   ~.x)),
-      class = "rata_auth_error")
+      glue::glue(
+        purrr::chuck(token_response, "error", "message"),
+        purrr::map_chr(
+          purrr::chuck(token_response, "error", "details"),
+          ~.x
+        )
+      ),
+      class = "rata_auth_error"
+    )
   } else {
     ## If there was no error, return the token
-    return(token_response$token)
+    token_response$token
   }
 }

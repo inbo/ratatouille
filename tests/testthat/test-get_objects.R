@@ -24,7 +24,7 @@ test_that("get_objects() returns one row for every input object_id", {
 
   expect_length(
     # compare length of values of first column
-    get_objects(object_ids, source = "rato")[[1]], 
+    get_objects(object_ids, source = "rato")[[1]],
     length(object_ids)
   )
 })
@@ -49,15 +49,16 @@ test_that("get_objects() can fallback on dplyr if data.table isn't installed", {
   )
 })
 
-test_that("get_objects() returns POSIXct dates and not time since 1970",{
+test_that("get_objects() returns POSIXct dates and not time since 1970", {
   # fetch 150 random records
   wfl_obs <-
-    get_objects(object_ids = sample(list_object_ids("wfl"), size = 150),
-                source = "wfl")
-  
+    get_objects(
+      object_ids = sample(list_object_ids("wfl"), size = 150),
+      source = "wfl"
+    )
+
   dplyr::select(wfl_obs, dplyr::contains("Datum")) |>
     purrr::walk(expect_s3_class, "POSIXct")
-  
 })
 
 test_that("get_objects() can return API error messages", {
@@ -67,12 +68,11 @@ test_that("get_objects() can return API error messages", {
     fixed = TRUE,
     class = "ratatouille.api_returned_error"
   )
-  
+
   expect_error(
     get_objects(object_ids = c(2004, "not an object id"), source = "wfl"),
     regexp = "Unable to complete operation.",
     fixed = TRUE,
     class = "ratatouille.api_returned_error"
   )
-  
 })

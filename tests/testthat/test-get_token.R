@@ -20,14 +20,16 @@ test_that("get_token() returns token with correct credentials", {
 test_that("get_token() can forward authentication errors", {
   # Need to be able to connect to API
   skip_if_offline(host = "gis.oost-vlaanderen.be")
-  
+
   withr::with_envvar(
-    new = c("RATO_USER" = "not_a_username",
-            "RATO_PWD" = "the_incorrect_pwd"),
+    new = c(
+      "RATO_USER" = "not_a_username",
+      "RATO_PWD" = "the_incorrect_pwd"
+    ),
     code = {
-      # don't use cache! 
+      # don't use cache!
       memoise::forget(get_token)
-      
+
       expect_error(
         get_token("rato"),
         class = "rata_auth_error"
@@ -47,7 +49,7 @@ test_that("get_token() supports source argument as enum", {
   )
 })
 
-test_that("get_token() does not support multiple sources",{
+test_that("get_token() does not support multiple sources", {
   # Only one token can be fetched at a time.
   expect_error(
     get_token(source = c("rato", "wfl")),

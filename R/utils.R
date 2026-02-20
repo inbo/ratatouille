@@ -36,9 +36,9 @@ as_datetime <- function(miliseconds, origin = "1970-01-01", ...) {
 #' get_api_domain("rato")
 #' @family utils
 #' @noRd
-get_api_domain <- function(source = c("rato", "wfl")){
+get_api_domain <- function(source = c("rato", "wfl")) {
   check_source(source)
-  
+
   dplyr::recode_values(
     source,
     "rato" ~ "https://gis.oost-vlaanderen.be",
@@ -72,7 +72,7 @@ get_api_basepath <- function(source = c("rato", "wfl"),
                              context = c("server", "portal")) {
   check_source(source)
   context <- rlang::arg_match(context)
-  
+
   dplyr::recode_values(
     source,
     "rato" ~ context,
@@ -90,24 +90,27 @@ get_api_basepath <- function(source = c("rato", "wfl"),
 #' @noRd
 check_credentials <- function(source = c("rato", "wfl")) {
   check_source(source)
- 
-  username <- Sys.getenv(toupper(paste0(source,"_USER")))
-  password <- Sys.getenv(toupper(paste0(source,"_PWD")))
-  
+
+  username <- Sys.getenv(toupper(paste0(source, "_USER")))
+  password <- Sys.getenv(toupper(paste0(source, "_PWD")))
+
   # Fail early if no credentials are set.
   if (password == "" || username == "") {
     rlang::abort(
       message =
-        c("No username or password provided",
-          paste("i Please provide username/password as arguments or set the as",
-                "environemental variables or via `.Renviron` as `RATO_USER`",
-                "and `RATO_PWD`.")
+        c(
+          "No username or password provided",
+          paste(
+            "i Please provide username/password as arguments or set the as",
+            "environemental variables or via `.Renviron` as `RATO_USER`",
+            "and `RATO_PWD`."
+          )
         ),
       class = "rata_no_credentials_set"
     )
   }
-  
-  return(TRUE)
+
+  TRUE
 }
 
 #' Check that a source argument is valid
@@ -120,22 +123,22 @@ check_credentials <- function(source = c("rato", "wfl")) {
 #' @family utils
 #' @noRd
 check_source <- function(source = NULL) {
-  if(missing(source)){
+  if (missing(source)) {
     rlang::abort(
       "Please specify a source to get the default resource for. 
       Allowed values are 'rato' or 'wfl'.",
       class = "rata_no_source_specified"
     )
   }
-  if(length(source) > 1){
+  if (length(source) > 1) {
     rlang::abort(
       "Only one source can be specified at a time.",
       class = "rata_multiple_sources"
     )
   }
-  
+
   source <- rlang::arg_match0(source, values = c("rato", "wfl"))
-  
+
   TRUE
 }
 
@@ -150,7 +153,7 @@ check_source <- function(source = NULL) {
 #' @returns `TRUE` if data.table is installed, otherwise `FALSE`.
 #' @family utils
 #' @noRd
-is_dt_installed <- function(...){
+is_dt_installed <- function(...) {
   rlang::is_installed("data.table", ...)
 }
 
@@ -158,10 +161,10 @@ is_dt_installed <- function(...){
 #' load
 #'
 #' - ratatouille.token_expires_minutes controls both how long a RATO ArcGIS REST
-#'  API access token should stay valid, and how long it should be cached for 
+#'  API access token should stay valid, and how long it should be cached for
 #'  (the same duration).
-#' - ratatouille.cache_max_age_secs controls the number of seconds a value 
-#'  stays in the cache. Setting this too high might result in changes in the 
+#' - ratatouille.cache_max_age_secs controls the number of seconds a value
+#'  stays in the cache. Setting this too high might result in changes in the
 #'  source data not being fetched.
 #' @noRd
 .onLoad <- function(libname, pkgname) {
@@ -185,10 +188,11 @@ is_dt_installed <- function(...){
   )
 
   list_object_ids <<-
-    memoise::memoise(list_object_ids,
-                     cache =
-                       cachem::cache_mem(
-                         max_age = getOption("ratatouille.cache_max_age_secs")
-                         )
-                     )
+    memoise::memoise(
+      list_object_ids,
+      cache =
+        cachem::cache_mem(
+          max_age = getOption("ratatouille.cache_max_age_secs")
+        )
+    )
 }

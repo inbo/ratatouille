@@ -18,27 +18,30 @@
 #' @examplesIf interactive()
 #' ratatouille()
 ratatouille <- function(source = c("rato", "wfl"), ...) {
-  
   check_source(source)
-  
+
   # ratatouille() always returns all objects.
   object_ids <- list_object_ids(source = source)
-  
+
   # Internally batch requests per 1000 records, these are processed in
   # parallel. If too many requests are batched, the token may expire before
   # the requests finish. NOTE: get_objects() uses further batching.
   internal_batch_size <- 1000
   batched_ids <-
     split(object_ids, ceiling(seq_along(object_ids) / internal_batch_size))
-  
+
   batched_query_results <-
     batched_ids |>
-    purrr::map(\(object_ids) get_objects(object_ids,
-                                         source = source,
-                                         ...),
-               .progress = TRUE)
-  
+    purrr::map(
+      \(object_ids) {
+        get_objects(object_ids,
+          source = source,
+          ...
+        )
+      },
+      .progress = TRUE
+    )
+
   # Return raw data
   purrr::list_rbind(batched_query_results)
-  
 }

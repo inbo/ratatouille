@@ -17,45 +17,49 @@
 #' @export
 #' @examples
 #' query_object_ids("wfl",
-#'                  query = "Gemeente='Koekelare'")
-#'   
+#'   query = "Gemeente='Koekelare'"
+#' )
+#'
 query_object_ids <- function(source = c("rato", "wfl"),
-                            resource = get_default_resource(source),
-                            query = "1=1") {
-  
+                             resource = get_default_resource(source),
+                             query = "1=1") {
   # Validate input arguments
   check_source(source)
   assertthat::assert_that(assertthat::is.string(query))
-  
+
   # Build the request by querying all objects, but only return ids.
   object_ids_request <-
     httr2::request(get_api_domain(source)) |>
     # Components of the API endpoint
-    httr2::req_url_path_append(get_api_basepath(source, "server"),
-                               "rest",
-                               "services") |>
+    httr2::req_url_path_append(
+      get_api_basepath(source, "server"),
+      "rest",
+      "services"
+    ) |>
     # Components of the table to query
     httr2::req_url_path_append(
       get_default_resource(source),
       "MapServer",
       "0",
-      "query") |>
+      "query"
+    ) |>
     httr2::req_url_query(
       where = query,
       returnIdsOnly = "true",
       f = "pjson",
       token = get_token(source)
-    ) |> 
+    ) |>
     httr2::req_retry(max_tries = 3)
-  
+
   # Perform request
-  object_ids_response <- 
-    object_ids_request |> 
+  object_ids_response <-
+    object_ids_request |>
     httr2::req_perform() |>
     httr2::resp_body_json(check_type = FALSE)
-  
+
   object_ids <- object_ids_response |>
     purrr::chuck("objectIds") |>
     unlist()
-  return(object_ids)
+
+  object_ids
 }

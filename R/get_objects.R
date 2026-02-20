@@ -28,7 +28,7 @@ get_objects <- function(object_ids = list_object_ids(),
                         resource = get_default_resource(source),
                         batch_size = 100) {
   check_source(source)
-  
+
   # Assert that objects were requested
   assertthat::assert_that(assertthat::not_empty(object_ids))
 
@@ -36,7 +36,7 @@ get_objects <- function(object_ids = list_object_ids(),
   assertthat::assert_that(assertthat::is.count(batch_size))
 
   # Assert that batch size is not too big
-  default_batch_size <- 
+  default_batch_size <-
     rlang::eval_bare(formals(rlang::caller_fn(0))[["batch_size"]])
   if (batch_size > default_batch_size) {
     warning(glue::glue(
@@ -60,29 +60,32 @@ get_objects <- function(object_ids = list_object_ids(),
           "OBJECTID IN ({object_ids_collated})",
           object_ids_collated = glue::glue_collapse(ids, sep = ",")
         )
-        
-      httr2::request(get_api_domain(source)) |>
-      # Components of the API endpoint and the table to query
-        httr2::req_url_path_append(get_api_basepath(source, context = "server"),
-                                   "rest",
-                                   "services",
-                                   resource) |>
-        # Components of the object query endpoint itself
-        httr2::req_url_path_append(
-          "MapServer",
-          "0",
-          "query"
-        ) |>
-        httr2::req_url_query(
-          where = object_id_query,
-          outFields = "*",
-          f = "json",
-          token = token_to_use
-        )
-    }) |>
+
+        httr2::request(get_api_domain(source)) |>
+          # Components of the API endpoint and the table to query
+          httr2::req_url_path_append(
+            get_api_basepath(source, context = "server"),
+            "rest",
+            "services",
+            resource
+          ) |>
+          # Components of the object query endpoint itself
+          httr2::req_url_path_append(
+            "MapServer",
+            "0",
+            "query"
+          ) |>
+          httr2::req_url_query(
+            where = object_id_query,
+            outFields = "*",
+            f = "json",
+            token = token_to_use
+          )
+      }
+    ) |>
     # Set capacity of API: handle capacity outstanding requests, then wait for
     # requests to finish
-    purrr::map(\(req){
+    purrr::map(\(req) {
       httr2::req_throttle(
         req,
         capacity = as.numeric(Sys.getenv("RATA_API_CAPACITY",
@@ -90,8 +93,8 @@ get_objects <- function(object_ids = list_object_ids(),
         ))
       )
     }) |>
-    # max_tries needs to be 2 for req_parallel
-    purrr::map(~ httr2::req_retry(.x, max_tries = 3))
+      # max_tries needs to be 2 for req_parallel
+      purrr::map(~ httr2::req_retry(.x, max_tries = 3))
 
   # Parse the response
   objects_response <-
@@ -102,10 +105,10 @@ get_objects <- function(object_ids = list_object_ids(),
     purrr::map(httr2::resp_body_json)
 
   # Forward any error messages
-  errors_returned <- 
-    purrr::map_lgl(objects_response, ~"error" %in% names(.x))
+  errors_returned <-
+    purrr::map_lgl(objects_response, ~ "error" %in% names(.x))
   if (any(errors_returned)) {
-    objects_with_error <- 
+    objects_with_error <-
       purrr::keep(objects_response, ~ "error" %in% names(.x))
     rlang::abort(
       message = c(
@@ -141,16 +144,17 @@ get_objects <- function(object_ids = list_object_ids(),
       # Combine all the data.frames together so we have one row per record
       purrr::list_rbind()
   }
-  
+
   # convert datetime fields into POSIXct
   parsed_df <-
     objects_df |>
     dplyr::mutate(dplyr::across(
       dplyr::contains("Datum"), # RATO datetime fields have Datum in their name
       ~ as.POSIXct(.x / 1000, # milliseconds since 1970
-                   origin = "1970-01-01")
+        origin = "1970-01-01"
+      )
     ))
-  
+
   # return the parsed data.frame
-  return(parsed_df)
+  parsed_df
 }

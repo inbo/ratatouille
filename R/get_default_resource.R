@@ -13,7 +13,7 @@
 #' get_default_resource("rato")
 get_default_resource <- function(source = NULL) {
   check_source(source)
-  
+
   dplyr::recode_values(
     source,
     "rato" ~ paste("RATO2", "RATO2_Dossiers_Publiek", sep = "/"),
