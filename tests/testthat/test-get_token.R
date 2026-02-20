@@ -25,6 +25,9 @@ test_that("get_token() can forward authentication errors", {
     new = c("RATO_USER" = "not_a_username",
             "RATO_PWD" = "the_incorrect_pwd"),
     code = {
+      # don't use cache! 
+      memoise::forget(get_token)
+      
       expect_error(
         get_token("rato"),
         class = "rata_auth_error"
