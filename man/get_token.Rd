@@ -4,15 +4,12 @@
 \alias{get_token}
 \title{Request an access token from the GIS API services}
 \usage{
-get_token(
-  username = Sys.getenv("RATO_USER"),
-  password = Sys.getenv("RATO_PWD")
-)
+get_token(source = c("rato", "wfl"))
 }
 \arguments{
-\item{username}{ArcGIS Enterprise username}
-
-\item{password}{ArcGIS Enterprise password}
+\item{source}{Character string indicating the source of the data to fetch. By
+default RATO data is fetched. \code{rato} will fetch RATO data. \code{wvl} will fetch
+data from the province of West Flanders.}
 }
 \value{
 Character. An access token for future API calls.

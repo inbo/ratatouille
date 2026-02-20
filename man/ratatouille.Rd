@@ -4,16 +4,17 @@
 \alias{ratatouille}
 \title{Fetch raw invasive species data}
 \usage{
-ratatouille(source = c("rato"), ...)
+ratatouille(source = c("rato", "wfl"), ...)
 }
 \arguments{
 \item{source}{Character string indicating the source of the data to fetch. By
-default RATO data is fetched.}
+default RATO data is fetched. \code{rato} will fetch RATO data. \code{wvl} will fetch
+data from the province of West Flanders.}
 
 \item{...}{
   Arguments passed on to \code{\link[=get_objects]{get_objects}}
   \describe{
-    \item{\code{batch_size}}{Number of objects to request per API call, default is 50.
+    \item{\code{batch_size}}{Number of objects to request per API call, default is 100.
 Setting this to a lower number will result in more API calls, but will also
 reduce the risk of timeouts or errors when requesting large datasets. When
 set to a higher number, the API may timeout or return an error if the
@@ -31,7 +32,7 @@ as they become available. All records from a source are returned, to fetch
 specific records see \code{\link[=get_objects]{get_objects()}}.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 ratatouille()
 \dontshow{\}) # examplesIf}
 }

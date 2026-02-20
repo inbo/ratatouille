@@ -3,7 +3,7 @@
 #' This function lists all object ids for a given resource on a ArcGIS
 #' Enterprise.
 #'
-#' @section Fetching all objects
+#' @section Fetching all objects:
 #'
 #'   Downloading all data for a resource consists of a two step process. First
 #'   all object ids for a resource are queried. Then the objects are fetched

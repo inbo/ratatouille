@@ -15,7 +15,8 @@
 #'   selected source.
 #' @export
 #'
-#' @examplesIf interactive() ratatouille()
+#' @examplesIf interactive()
+#' ratatouille()
 ratatouille <- function(source = c("rato", "wfl"), ...) {
   
   source <- rlang::arg_match(source)
