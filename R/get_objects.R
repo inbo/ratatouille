@@ -1,16 +1,17 @@
-#' Get objects from the RATO ArcGIS Enterprise environment via the API
+#' Get objects from an ArcGIS Enterprise environment via the REST API
 #'
-#' This function retrieves objects from the RATO ArcGIS environment based on the
+#' This function retrieves objects from an ArcGIS environment based on the
 #' object_id. It is capable of retrieving a large amount of objects in a single
 #' function call. As to minimize errors it will  fetch `batch size` number of
 #' objects per request, and will operate in parallel: for a maximum of 5000
 #' requests per 60 seconds, having at most 10 requests open at a time.
 #'
-#' To query the RATO ArcGIS REST API you need credentials. Without credentials
+#' To query an ArcGIS REST API you need credentials. Without credentials
 #' accessing the raw data is not possible.
 #'
-#' @param object_ids Vector of RATO object_ids, these allow you to fetch a
-#'   specific database record. By default, all records are returned.
+#' @param object_ids Vector of object_ids for a specific resource, these allow
+#'   you to fetch a specific database record. By default, all records are
+#'   returned.
 #' @param batch_size Number of objects to request per API call, default is 100.
 #'   Setting this to a lower number will result in more API calls, but will also
 #'   reduce the risk of timeouts or errors when requesting large datasets. When
@@ -21,6 +22,7 @@
 #' @export
 get_objects <- function(object_ids = list_object_ids(),
                         source = c("rato", "wfl"),
+                        resource = get_default_resource(source),
                         batch_size = 100) {
   source <- rlang::arg_match(source)
   
@@ -61,7 +63,7 @@ get_objects <- function(object_ids = list_object_ids(),
         httr2::req_url_path_append(get_api_basepath(source, context = "server"),
                                    "rest",
                                    "services",
-                                   get_default_resource(source)) |>
+                                   resource) |>
         # Components of the object query endpoint itself
         httr2::req_url_path_append(
           "MapServer",
