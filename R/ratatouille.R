@@ -5,9 +5,9 @@
 #' as they become available. All records from a source are returned, to fetch
 #' specific records see [get_objects()].
 #'
-#' @param source Character string indicating the source of the data to fetch. By
-#'   default RATO data is fetched. `rato` will fetch RATO data. `wvl` will fetch
-#'   data from the province of West Flanders.
+#' @param source (Required) Character string indicating the source of the data
+#'   to fetch. By default RATO data is fetched. `rato` will fetch RATO data.
+#'   `wvl` will fetch data from the province of West Flanders.
 #' @inheritParams get_objects
 #' @inheritDotParams get_objects batch_size
 #'
