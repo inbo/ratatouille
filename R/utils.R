@@ -37,7 +37,8 @@ as_datetime <- function(miliseconds, origin = "1970-01-01", ...) {
 #' @family utils
 #' @noRd
 get_api_domain <- function(source = c("rato", "wfl")){
-  source <- rlang::arg_match(source, multiple = FALSE)
+  check_source(source)
+  
   dplyr::recode_values(
     source,
     "rato" ~ "https://gis.oost-vlaanderen.be",
@@ -69,7 +70,7 @@ get_api_domain <- function(source = c("rato", "wfl")){
 #' @noRd
 get_api_basepath <- function(source = c("rato", "wfl"),
                              context = c("server", "portal")) {
-  source <- rlang::arg_match(source)
+  check_source(source)
   context <- rlang::arg_match(context)
   
   dplyr::recode_values(
@@ -88,7 +89,7 @@ get_api_basepath <- function(source = c("rato", "wfl"),
 #' @family utils
 #' @noRd
 check_credentials <- function(source = c("rato", "wfl")) {
-  source <- rlang::arg_match(source)
+  check_source(source)
  
   username <- Sys.getenv(toupper(paste0(source,"_USER")))
   password <- Sys.getenv(toupper(paste0(source,"_PWD")))
@@ -107,6 +108,35 @@ check_credentials <- function(source = c("rato", "wfl")) {
   }
   
   return(TRUE)
+}
+
+#' Check that a source argument is valid
+#'
+#' @param source Character string of the source enum to check. Either "rato" or
+#'   "wfl".
+#'
+#' @returns `TRUE` if the source argument is valid, otherwise an error.
+#'
+#' @family utils
+#' @noRd
+check_source <- function(source = NULL) {
+  if(missing(source)){
+    rlang::abort(
+      "Please specify a source to get the default resource for. 
+      Allowed values are 'rato' or 'wfl'.",
+      class = "rata_no_source_specified"
+    )
+  }
+  if(length(source) > 1){
+    rlang::abort(
+      "Only one source can be specified at a time.",
+      class = "rata_multiple_sources"
+    )
+  }
+  
+  source <- rlang::arg_match0(source, values = c("rato", "wfl"))
+  
+  TRUE
 }
 
 #' Create .onLoad function to set Package options and memoisation behavior on

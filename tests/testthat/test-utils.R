@@ -103,3 +103,24 @@ test_that("check_credentials() returns an error if credentials are unset", {
     }
   )
 })
+
+test_that("check_source() returns error on multiple sources", {
+  expect_error(
+    check_source(c("rato", "wfl")),
+    class = "rata_multiple_sources"
+  )
+})
+
+test_that("check_source() returns error on invalid source", {
+  expect_error(
+    check_source("invalid_source"),
+    class = "rlang_error"
+  )
+})
+
+test_that("check_source() returns error on missing source", {
+  expect_error(
+    check_source(),
+    class = "rata_no_source_specified"
+  )
+})

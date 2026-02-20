@@ -24,7 +24,7 @@ get_objects <- function(object_ids = list_object_ids(),
                         source = c("rato", "wfl"),
                         resource = get_default_resource(source),
                         batch_size = 100) {
-  source <- rlang::arg_match(source)
+  check_source(source)
   
   # Assert that objects were requested
   assertthat::assert_that(assertthat::not_empty(object_ids))

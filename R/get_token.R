@@ -15,7 +15,7 @@
 #' @export
 get_token <- function(source = c("rato", "wfl")) {
   
-  source <- rlang::arg_match(source)
+  check_source(source)
 
   # Check if credentials are set as environemental variables
   check_credentials(source)

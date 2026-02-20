@@ -19,7 +19,7 @@
 #' ratatouille()
 ratatouille <- function(source = c("rato", "wfl"), ...) {
   
-  source <- rlang::arg_match(source)
+  check_source(source)
   
   # ratatouille() always returns all objects.
   object_ids <- list_object_ids(source = source)

@@ -24,7 +24,7 @@ query_object_ids <- function(source = c("rato", "wfl"),
                             query = "1=1") {
   
   # Validate input arguments
-  source <- rlang::arg_match(source)
+  check_source(source)
   assertthat::assert_that(assertthat::is.string(query))
   
   # Build the request by querying all objects, but only return ids.
