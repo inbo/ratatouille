@@ -85,8 +85,8 @@ get_objects <- function(object_ids = list_object_ids(),
     purrr::map(\(req){
       httr2::req_throttle(
         req,
-        capacity = as.numeric(Sys.getenv("RATO_API_CAPACITY",
-          unset = getOption("ratatouille.RATO_API_CAPACITY")
+        capacity = as.numeric(Sys.getenv("RATA_API_CAPACITY",
+          unset = getOption("ratatouille.RATA_API_CAPACITY")
         ))
       )
     }) |>

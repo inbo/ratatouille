@@ -170,7 +170,7 @@ is_dt_installed <- function(...){
   op.ratatouille <- list(
     ratatouille.token_expires_minutes = 5,
     ratatouille.cache_max_age_secs = 150,
-    ratatouille.RATO_API_CAPACITY = 750
+    ratatouille.RATA_API_CAPACITY = 750
   )
   toset <- !(names(op.ratatouille) %in% names(op))
   if (any(toset)) options(op.ratatouille[toset])
