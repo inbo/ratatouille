@@ -45,16 +45,17 @@ get_token <- function(source = c("rato", "wfl")) {
     httr2::req_perform() |>
     httr2::resp_body_json()
 
-  # If unable to login, reset the password so one is requested next time.
+  # If unable to login, forward the API error.
   if (
     purrr::pluck(token_response, "error", "code", .default = FALSE)
   ) {
-    Sys.setenv(ratopwd = "")
-    stop(
+    # If the API returns an error, forward it.
+    rlang::abort(
       glue::glue(purrr::chuck(token_response, "error", "message"),
                  purrr::map_chr(
                    purrr::chuck(token_response, "error", "details"),
-                   ~.x)))
+                   ~.x)),
+      class = "rata_auth_error")
   } else {
     ## If there was no error, return the token
     return(token_response$token)

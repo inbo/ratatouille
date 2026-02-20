@@ -17,6 +17,22 @@ test_that("get_token() returns token with correct credentials", {
   )
 })
 
+test_that("get_token() can forward authentication errors", {
+  # Need to be able to connect to API
+  skip_if_offline(host = "gis.oost-vlaanderen.be")
+  
+  withr::with_envvar(
+    new = c("RATO_USER" = "not_a_username",
+            "RATO_PWD" = "the_incorrect_pwd"),
+    code = {
+      expect_error(
+        get_token("rato"),
+        class = "rata_auth_error"
+      )
+    }
+  )
+})
+
 test_that("get_token() supports source argument as enum", {
   expect_type(
     get_token(source = "rato"),
