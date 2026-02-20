@@ -18,23 +18,6 @@
 get_token <- function(source = c("rato", "wfl")) {
   
   source <- rlang::arg_match(source)
-  
-  # Check that username and password are strings if provided
-  assertthat::assert_that(assertthat::is.string(username))
-  assertthat::assert_that(assertthat::is.string(password))
-
-  # Fail early if no credentials are set.
-  if (password == "" || username == "") {
-    rlang::abort(
-      message =
-        c("No username or password provided",
-          paste("i Please provide username/password as arguments or set the as",
-                "environemental variables or via `.Renviron` as `RATO_USER`",
-                "and `RATO_PWD`.")
-          ),
-      class = "rato_no_pwd_provided"
-    )
-  }
 
   # Build request for the API
   token_request <-
