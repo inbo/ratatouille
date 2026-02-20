@@ -101,9 +101,9 @@ check_credentials <- function(source = c("rato", "wfl")) {
         c(
           "No username or password provided",
           paste(
-            "i Please provide username/password as arguments or set the as",
+            "i Please provide username/password via ",
             "environemental variables or via `.Renviron` as `RATO_USER`",
-            "and `RATO_PWD`."
+            ",`RATO_PWD` and/or `WFL_USER`,`WFL_PWD`."
           )
         ),
       class = "rata_no_credentials_set"
