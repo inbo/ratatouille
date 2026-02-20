@@ -1,4 +1,14 @@
 # ratatouille (development version)
+- ratatouille now also supports fetching management data from the province of 
+West Flanders. A new argument `source` was added to the package functions that 
+allows switching between RATO `rato` data and West Flanders `wfl` data. `source`
+is a required argument and not providing it will result in an error.
+- A new function was added: `query_object_ids()` which allows users to query the
+RATO ArcGIS REST API object IDs for a given resource within a source. These 
+objects can then be fetched using `get_objects()` (#31)
+- `get_default_resource()` lists the default resource (layer or table) for a 
+data source. Other resources may be available. This function is called by 
+default by other data fetching functions.
 
 # ratatouille 1.0.4
 - `ratatouille()` now always returns all records for the specified source. (#53)

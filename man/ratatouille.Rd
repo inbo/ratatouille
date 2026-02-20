@@ -4,16 +4,17 @@
 \alias{ratatouille}
 \title{Fetch raw invasive species data}
 \usage{
-ratatouille(source = c("rato"), ...)
+ratatouille(source, ...)
 }
 \arguments{
-\item{source}{Character string indicating the source of the data to fetch. By
-default RATO data is fetched.}
+\item{source}{(Required) Character string indicating the source of the data
+to fetch. Currently supported data sources: \code{rato} will fetch RATO data and
+\code{wfl} will fetch data from the province of West Flanders.}
 
 \item{...}{
   Arguments passed on to \code{\link[=get_objects]{get_objects}}
   \describe{
-    \item{\code{batch_size}}{Number of objects to request per API call, default is 50.
+    \item{\code{batch_size}}{Number of objects to request per API call, default is 100.
 Setting this to a lower number will result in more API calls, but will also
 reduce the risk of timeouts or errors when requesting large datasets. When
 set to a higher number, the API may timeout or return an error if the
@@ -26,12 +27,12 @@ selected source.
 }
 \description{
 This function fetches the raw invasive species data from the specified
-source. It supports fetching data from RATO (the default) and other sources
+source. It supports fetching data from RATO and other sources
 as they become available. All records from a source are returned, to fetch
 specific records see \code{\link[=get_objects]{get_objects()}}.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-ratatouille()
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
+ratatouille(source = "rato")
 \dontshow{\}) # examplesIf}
 }

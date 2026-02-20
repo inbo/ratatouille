@@ -1,54 +1,43 @@
 #' Request an access token from the GIS API services
 #'
 #' The credentials are stored in your .Renviron file under `RATO_USER` and
-#' `RATO_PWD`. If you haven't stored them there already the function will prompt
-#' you for them and store them in these environmental variables. To reset any
-#' stored values,  pass emtpy strings `""` to either the `username` or
-#' `password` arguments.
+#' `RATO_PWD` and/or `WFL_USER` and `WFL_PWD`. To get credentials please contact
+#' the data sources directly.
 #'
 #' By default tokens expire every 5 minutes, and are cached until they expire.
 #' You can set a different expiry duration by changing the
-#' `ratatouille.rato_expires_minutes` option with `options()`
+#' `ratatouille.token_expires_minutes` option with `options()`
 #'
-#' @param username ArcGIS Enterprise username
-#' @param password ArcGIS Enterprise password
+#' @inheritParams ratatouille
 #'
 #' @return Character. An access token for future API calls.
 #'
 #' @export
-get_token <- function(username = Sys.getenv("RATO_USER"),
-                      password = Sys.getenv("RATO_PWD")) {
-  # Check that username and password are strings if provided
-  assertthat::assert_that(assertthat::is.string(username))
-  assertthat::assert_that(assertthat::is.string(password))
+get_token <- function(source) {
+  check_source(source)
 
-  # If the pwd variable isn't set, prompt for password when session interactive
-  if (password == "" || username == "") {
-    rlang::abort(
-      message =
-        c("No username or password provided",
-          paste("i Please provide username/password as arguments or set the as",
-                "environemental variables or via `.Renviron` as `RATO_USER`",
-                "and `RATO_PWD`.")
-          ),
-      class = "rato_no_pwd_provided"
-    )
-  }
-
+  # Check if credentials are set as environmental variables
+  check_credentials(source)
   # Build request for the API
   token_request <-
-    httr2::request("https://gis.oost-vlaanderen.be") |>
-    httr2::req_url_path("portal", "sharing", "rest", "generateToken") |>
+    get_api_domain(source) |>
+    httr2::request() |>
+    httr2::req_url_path(
+      get_api_basepath(source, "portal"),
+      "sharing",
+      "rest",
+      "generateToken"
+    ) |>
     httr2::req_body_form(
-      username = username,
-      password = password,
+      username = Sys.getenv(toupper(paste0(source, "_USER"))),
+      password = Sys.getenv(toupper(paste0(source, "_PWD"))),
       # NOTE MUST USE CLIENT `referer`, otherwise you'll get a token but it will
       # not work!
       client = "referer",
-      referer = "https://gis.oost-vlaanderen.be",
-      expiration = getOption("ratatouille.rato_expires_minutes"),
+      referer = get_api_domain(source),
+      expiration = getOption("ratatouille.token_expires_minutes"),
       f = "json"
-    ) |> 
+    ) |>
     httr2::req_retry(max_tries = 3)
 
   # Parse the API response
@@ -57,18 +46,23 @@ get_token <- function(username = Sys.getenv("RATO_USER"),
     httr2::req_perform() |>
     httr2::resp_body_json()
 
-  # If unable to login, reset the password so one is requested next time.
+  # If unable to login, forward the API error.
   if (
     purrr::pluck(token_response, "error", "code", .default = FALSE)
   ) {
-    Sys.setenv(ratopwd = "")
-    stop(
-      glue::glue(purrr::chuck(token_response, "error", "message"),
-                 purrr::map_chr(
-                   purrr::chuck(token_response, "error", "details"),
-                   ~.x)))
+    # If the API returns an error, forward it.
+    rlang::abort(
+      glue::glue(
+        purrr::chuck(token_response, "error", "message"),
+        purrr::map_chr(
+          purrr::chuck(token_response, "error", "details"),
+          ~.x
+        )
+      ),
+      class = "rata_auth_error"
+    )
   } else {
     ## If there was no error, return the token
-    return(token_response$token)
+    token_response$token
   }
 }

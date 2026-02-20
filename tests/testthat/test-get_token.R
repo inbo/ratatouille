@@ -6,32 +6,67 @@ test_that("get_token() returns token with correct credentials", {
   skip_if(Sys.getenv("RATO_PWD") == "")
 
   expect_type(
-    get_token(),
+    get_token("rato"),
     "character"
   )
 
   # The returned tokens from RATO have a set length
   expect_identical(
-    nchar(get_token()),
+    nchar(get_token("rato")),
     192L
   )
 })
 
-test_that("get_token() returns error on missing username/password", {
-  expect_error(
-    get_token(username = ""),
-    class = "rato_no_pwd_provided"
+test_that("get_token() can forward authentication errors", {
+  # Need to be able to connect to API
+  skip_if_offline(host = "gis.oost-vlaanderen.be")
+
+  withr::with_envvar(
+    new = c(
+      "RATO_USER" = "not_a_username",
+      "RATO_PWD" = "the_incorrect_pwd"
+    ),
+    code = {
+      # don't use cache!
+      memoise::forget(get_token)
+
+      expect_error(
+        get_token("rato"),
+        class = "rata_auth_error"
+      )
+    }
   )
-  expect_error(
-    get_token(password = ""),
-    class = "rato_no_pwd_provided"
+})
+
+test_that("get_token() supports source argument as enum", {
+  expect_type(
+    get_token(source = "rato"),
+    "character"
   )
-  expect_error(
-    get_token(username = "", password = ""),
-    class = "rato_no_pwd_provided"
+  expect_type(
+    get_token(source = "wfl"),
+    "character"
   )
+})
+
+test_that("get_token() does not support multiple sources", {
+  # Only one token can be fetched at a time.
   expect_error(
-    get_token(username = "myuserid", password = ""),
-    class = "rato_no_pwd_provided"
+    get_token(source = c("rato", "wfl")),
+    class = "rata_multiple_sources"
+  )
+})
+
+test_that("get_token() can return token for RATO API", {
+  expect_type(
+    get_token("rato"),
+    "character"
+  )
+})
+
+test_that("get_token() can return token for West Flanders API", {
+  expect_type(
+    get_token("wfl"),
+    "character"
   )
 })

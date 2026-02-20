@@ -4,28 +4,23 @@
 \alias{get_token}
 \title{Request an access token from the GIS API services}
 \usage{
-get_token(
-  username = Sys.getenv("RATO_USER"),
-  password = Sys.getenv("RATO_PWD")
-)
+get_token(source)
 }
 \arguments{
-\item{username}{ArcGIS Enterprise username}
-
-\item{password}{ArcGIS Enterprise password}
+\item{source}{(Required) Character string indicating the source of the data
+to fetch. Currently supported data sources: \code{rato} will fetch RATO data and
+\code{wfl} will fetch data from the province of West Flanders.}
 }
 \value{
 Character. An access token for future API calls.
 }
 \description{
 The credentials are stored in your .Renviron file under \code{RATO_USER} and
-\code{RATO_PWD}. If you haven't stored them there already the function will prompt
-you for them and store them in these environmental variables. To reset any
-stored values,  pass emtpy strings \code{""} to either the \code{username} or
-\code{password} arguments.
+\code{RATO_PWD} and/or \code{WFL_USER} and \code{WFL_PWD}. To get credentials please contact
+the data sources directly.
 }
 \details{
 By default tokens expire every 5 minutes, and are cached until they expire.
 You can set a different expiry duration by changing the
-\code{ratatouille.rato_expires_minutes} option with \code{options()}
+\code{ratatouille.token_expires_minutes} option with \code{options()}
 }
