@@ -23,7 +23,8 @@
 #'
 #' @return tibble of requested objects.
 #' @export
-get_objects <- function(object_ids = list_object_ids(),
+get_objects <- function(object_ids = list_object_ids(source = source,
+                                                     resource = resource),
                         source = c("rato", "wfl"),
                         resource = get_default_resource(source),
                         batch_size = 100) {
