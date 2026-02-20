@@ -27,6 +27,20 @@ test_that("get_objects() returns one row for every input object_id", {
     get_objects(object_ids, source = "rato")[[1]],
     length(object_ids)
   )
+  
+  # All wfl data
+  # Need to be able to connect to API
+  skip_if_offline(host = "gwadmin.west-vlaanderen.be")
+  # Need to have credentials stored
+  skip_if(Sys.getenv("WFL_USER") == "")
+  skip_if(Sys.getenv("WFL_PWD") == "")
+  
+  wfl_ids <- list_object_ids("wfl")
+  
+  expect_length(
+    get_objects(wfl_ids, source = "wfl")[[1]],
+    length(wfl_ids)
+  )
 })
 
 test_that("get_objects() warns for batch sizes above 50", {
