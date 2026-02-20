@@ -59,7 +59,7 @@ test_that("get_objects() can fallback on dplyr if data.table isn't installed", {
       get_objects(list_object_ids("wfl")[seq(15)], source = "wfl"),
       "data.frame"
     ),
-    is_dt_installed = \(x) FALSE
+    is_dt_installed = \(...) FALSE
   )
 })
 
