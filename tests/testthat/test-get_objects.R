@@ -1,4 +1,4 @@
-test_that("get_objects() can retreive a single object", {
+test_that("get_objects() can retrieve a single object", {
   # Need to be able to connect to API
   skip_if_offline(host = "gwadmin.west-vlaanderen.be")
   # Need to have credentials stored

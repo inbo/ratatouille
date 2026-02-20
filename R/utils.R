@@ -102,7 +102,7 @@ check_credentials <- function(source) {
           "No username or password provided",
           paste(
             "i Please provide username/password via ",
-            "environemental variables or via `.Renviron` as `RATO_USER`",
+            "environmental variables or via `.Renviron` as `RATO_USER`",
             ",`RATO_PWD` and/or `WFL_USER`,`WFL_PWD`."
           )
         ),
@@ -146,7 +146,7 @@ check_source <- function(source = NULL) {
 #' Check if data.table is installed (wrapper of rlang::check_installed)
 #'
 #' This function is a wrapper of `rlang::is_installed` to check if the
-#' `data.table`. This makes it possible to test the fallback via mocking to purr
+#' `data.table`. This makes it possible to test the fallback via mocking to purrr
 #' when data.table is not available.
 #'
 #' @param ... further arguments to be passed to `rlang::is_installed()`.
