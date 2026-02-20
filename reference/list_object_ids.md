@@ -1,0 +1,40 @@
+# List all object ids for a resource on a ArcGIS Enterprise MapServer
+
+This function lists all object ids for a given resource on a ArcGIS
+Enterprise.
+
+## Usage
+
+``` r
+list_object_ids(source, resource = get_default_resource(source))
+```
+
+## Arguments
+
+- source:
+
+  (Required) Character string indicating the source of the data to
+  fetch. Currently supported data sources: `rato` will fetch RATO data
+  and `wfl` will fetch data from the province of West Flanders.
+
+- resource:
+
+  The resource to query. Defaults to the default resource for the given
+  source.
+
+## Value
+
+Integer vector of (all) object ids.
+
+## Fetching all objects
+
+Downloading all data for a resource consists of a two step process.
+First all object ids for a resource are queried. Then the objects are
+fetched from that resource by their id.
+
+## Caching
+
+The returned id's are cached by default, but this can be overwritten by
+calling `memoise::forget(list_object_ids)` which will remove the cache
+and ensure the next call queries the database (but will reinstate the
+cache for any follow up calls).

@@ -6,10 +6,12 @@
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
 <url><loc>/news/index.html</loc></url>
+<url><loc>/reference/get_default_resource.html</loc></url>
 <url><loc>/reference/get_objects.html</loc></url>
 <url><loc>/reference/get_token.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
 <url><loc>/reference/list_object_ids.html</loc></url>
+<url><loc>/reference/query_object_ids.html</loc></url>
 <url><loc>/reference/ratatouille.html</loc></url>
 </urlset>
 

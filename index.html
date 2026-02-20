@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Fetch Data from the RATO Database • ratatouille</title>
+<title>Fetch Rat and Species Management Data from the RATO or Provincial Databases • ratatouille</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Fetch Data from the RATO Database">
-<meta name="description" content="This repository contains the functionality to access the unprocessed data of RATO vzw via an API call to an ESRI ArcGIS instance. Credentials are required to access this data.">
-<meta property="og:description" content="This repository contains the functionality to access the unprocessed data of RATO vzw via an API call to an ESRI ArcGIS instance. Credentials are required to access this data.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Fetch Rat and Species Management Data from the RATO or Provincial Databases">
+<meta name="description" content="This repository contains the functionality to access the unprocessed species management data of RATO vzw or the province of West Flanders via an API call to an ESRI ArcGIS instance. Credentials are required to access this data.">
+<meta property="og:description" content="This repository contains the functionality to access the unprocessed species management data of RATO vzw or the province of West Flanders via an API call to an ESRI ArcGIS instance. Credentials are required to access this data.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -51,21 +51,22 @@
 </h1></div>
 <!-- badges: start -->
 
+<!-- badges: end -->
 <div class="section level2">
 <h2 id="rationale">Rationale<a class="anchor" aria-label="anchor" href="#rationale"></a>
 </h2>
-<p>This repository contains the functionality to access the unprocessed data of <a href="https://oost-vlaanderen.be/wonen-en-leven/natuur-en-milieu/overlastsoorten/rattenbestrijding-.html" class="external-link">RATO vzw</a> via an API call to an <a href="https://developers.arcgis.com/documentation/" class="external-link">ESRI ArcGIS instance</a>. Credentials are required to access this data. These credentials are stored as a github secrets under the <code>RATO_USER</code> and <code>RATO_PWD</code> environmental parameters, and can be set locally by editing the <code>.Renviron</code> file.</p>
+<p>This repository contains the functionality to access the unprocessed management data of <a href="https://oost-vlaanderen.be/wonen-en-leven/natuur-en-milieu/overlastsoorten/rattenbestrijding-.html" class="external-link">RATO vzw</a> and the province of West Flanders via an API call to an <a href="https://developers.arcgis.com/documentation/" class="external-link">ESRI ArcGIS instance</a>. Credentials are required to access this data. These credentials are stored as a github secrets under the <code>RATO_USER</code>, <code>RATO_PWD</code> and <code>WFL_USER</code>, <code>WFL_PWD</code>environmental parameters respectively, and can be set locally by editing the <code>.Renviron</code> file.</p>
 </div>
 <div class="section level2">
-<h2 id="set-up-your-rato-credentials-locally">Set Up your RATO credentials locally<a class="anchor" aria-label="anchor" href="#set-up-your-rato-credentials-locally"></a>
+<h2 id="set-up-your-credentials-locally">Set Up your credentials locally<a class="anchor" aria-label="anchor" href="#set-up-your-credentials-locally"></a>
 </h2>
-<p>The easiest way to store the required username and password necessary to access the RATO database is by storing them in your <code>.Renviron</code> file. An easy way to edit this file is by using a function from <a href="https://usethis.r-lib.org/" class="external-link">the usethis package</a>.</p>
+<p>The easiest way to store the required username and password necessary to access a data source is by storing them in your <code>.Renviron</code> file. An easy way to edit this file is by using a function from <a href="https://usethis.r-lib.org/" class="external-link">the usethis package</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"usethis"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># install.packages("usethis")</span></span>
 <span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The contents of the file may contain other secrets or settings used by other scripts or packages, but can be edited to have lines like:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>RATO_USER <span class="ot">=</span> <span class="st">"RATO_INBO"</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>RATO_PWD <span class="ot">=</span> <span class="st">"a super fake password that should be replaced by your real one"</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">RATO_USER</span> = <span class="st">"your username"</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">RATO_PWD</span> = <span class="st">"your password"</span></span></code></pre></div>
 <p>After restarting your R instance you should be able to fetch data from the RATO database without being prompted for your credentials.</p>
 </div>
 <div class="section level2">
@@ -82,11 +83,8 @@
 <p>Once you have your credentials stored, getting raw data from RATO is as easy as:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/inbo/ratatouille" class="external-link">ratatouille</a></span><span class="op">)</span></span>
-<span><span class="va">rato_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ratatouille.html">ratatouille</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">rato_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ratatouille.html">ratatouille</a></span><span class="op">(</span>source <span class="op">=</span> <span class="st">"rato"</span><span class="op">)</span></span></code></pre></div>
 <p>The resulting object looks like this (but has many more columns):</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_sample</a></span><span class="op">(</span><span class="va">rato_data</span>, n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html" class="external-link">all_of</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Soort"</span>, <span class="st">"Materiaal_Vast"</span>, <span class="st">"Materiaal_Consumptie"</span>, <span class="st">"Laatst_Bewerkt_Datum"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -102,103 +100,143 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">Bruine rat bak/buis</td>
-<td align="left">NA</td>
-<td align="left">Broma blok (aantal) = 1;</td>
-<td align="left">2022-02-04 09:27:43</td>
+<td align="left">Bruine rat</td>
+<td align="left"></td>
+<td align="left">Harmonix (aantal) = 4;</td>
+<td align="left">2024-05-15 08:32:46</td>
 </tr>
 <tr class="even">
-<td align="left">Roosters/kleppen</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="left">2023-01-25 11:53:31</td>
-</tr>
-<tr class="odd">
-<td align="left">Bruine rat bak/buis</td>
-<td align="left">NA</td>
-<td align="left">Difa blok Groot (aantal) = 1;</td>
-<td align="left">2025-01-03 10:27:46</td>
-</tr>
-<tr class="even">
-<td align="left">Bruine rat bak/buis</td>
-<td align="left">NA</td>
-<td align="left">Broma blok (aantal) = 1;</td>
-<td align="left">2023-08-17 12:47:00</td>
-</tr>
-<tr class="odd">
 <td align="left">Bruine rat bak/buis</td>
 <td align="left">NA</td>
 <td align="left">Geen gif bijgevuld (ok) = 1;</td>
-<td align="left">2024-07-05 07:42:22</td>
+<td align="left">2025-06-12 15:20:39</td>
+</tr>
+<tr class="odd">
+<td align="left">Duiven</td>
+<td align="left"></td>
+<td align="left">NA</td>
+<td align="left">2022-02-28 15:34:50</td>
+</tr>
+<tr class="even">
+<td align="left">Bruine rat bak/buis</td>
+<td align="left">NA</td>
+<td align="left">Geen gif bijgevuld (ok) = 1;</td>
+<td align="left">2023-06-30 13:44:54</td>
+</tr>
+<tr class="odd">
+<td align="left">Aziatische hoornaar</td>
+<td align="left">Poederverstuiver = 1;</td>
+<td align="left">Permas-D = 1;</td>
+<td align="left">2025-07-15 09:44:00</td>
 </tr>
 </tbody>
 </table>
 <p>For this example only a few fields are shown because there is the possibility of personal data in other fields.</p>
+<div class="section level3">
+<h3 id="available-columns">Available columns<a class="anchor" aria-label="anchor" href="#available-columns"></a>
+</h3>
+<p>These are all columns available for the <code>rato</code> data source:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">#&gt; Rows: 0</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; Columns: 28</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; $ Dossier_ID           &lt;int&gt; </span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; $ OBJECTID             &lt;int&gt; </span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; $ Dossier_Status       &lt;chr&gt; </span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; $ Domein               &lt;chr&gt; </span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; $ Soort                &lt;chr&gt; </span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; $ Waarneming           &lt;chr&gt; </span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; $ Actie                &lt;chr&gt; </span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; $ Materiaal_Vast       &lt;chr&gt; </span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; $ Materiaal_Consumptie &lt;chr&gt; </span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; $ Opmerkingen_admin    &lt;chr&gt; </span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; $ Opmerkingen          &lt;chr&gt; </span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; $ Melder_Naam          &lt;chr&gt; </span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; $ Melder_Klant         &lt;chr&gt; </span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; $ Planning_Datum       &lt;dttm&gt; </span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; $ X                    &lt;dbl&gt; </span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; $ Y                    &lt;dbl&gt; </span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; $ Gemeente             &lt;chr&gt; </span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; $ Aard_Locatie         &lt;chr&gt; </span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; $ NIS_Code             &lt;int&gt; </span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; $ GBIF_Code            &lt;int&gt; </span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; $ Dossier_Link         &lt;lgl&gt; </span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; $ Dossier_Link_ID      &lt;lgl&gt; </span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; $ Hoofddossier_ID      &lt;int&gt; </span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt; $ Aangemaakt_Datum     &lt;dttm&gt; </span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt; $ Laatst_Bewerkt_Datum &lt;dttm&gt; </span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="co">#&gt; $ Datum_Van            &lt;dttm&gt; </span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="co">#&gt; $ Geometrie_Type       &lt;chr&gt; </span></span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt; $ GlobalID             &lt;chr&gt;</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="species-in-the-dataset">Species in the dataset<a class="anchor" aria-label="anchor" href="#species-in-the-dataset"></a>
 </h2>
-<p>This is raw data, some cleaning will be required. Dutch names and GBIF taxon ids are provided, but these last are often unchecked and may contain errors.</p>
+<p>This is raw data, some cleaning will be required. Dutch names and GBIF taxon ids are provided, but these last are often unchecked and may contain errors. Note that you can only download data for one source at a time.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">rato_data</span>, <span class="va">Soort</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"wfl"</span>, <span class="st">"rato"</span><span class="op">)</span>, <span class="op">~</span><span class="fu"><a href="reference/ratatouille.html">ratatouille</a></span><span class="op">(</span>source <span class="op">=</span> <span class="va">.x</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/list_c.html" class="external-link">list_rbind</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">Soort</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                                  Soort      n</span></span>
 <span><span class="co">#&gt;                                 &lt;char&gt;  &lt;int&gt;</span></span>
-<span><span class="co">#&gt;  1:                Bruine rat bak/buis 113511</span></span>
-<span><span class="co">#&gt;  2:                         Bruine rat  28686</span></span>
-<span><span class="co">#&gt;  3:                          Muskusrat  19774</span></span>
-<span><span class="co">#&gt;  4:                Aziatische hoornaar   7113</span></span>
-<span><span class="co">#&gt;  5:                        Zwerfkatten   4834</span></span>
-<span><span class="co">#&gt;  6:                   Roosters/kleppen   4434</span></span>
-<span><span class="co">#&gt;  7:                             Duiven   4374</span></span>
-<span><span class="co">#&gt;  8:                             Muizen   1320</span></span>
-<span><span class="co">#&gt;  9:                   Reuzenberenklauw   1030</span></span>
-<span><span class="co">#&gt; 10:                           Meetpunt    967</span></span>
-<span><span class="co">#&gt; 11:                Lettersierschildpad    879</span></span>
-<span><span class="co">#&gt; 12:                              Bever    440</span></span>
-<span><span class="co">#&gt; 13:                       Voederplaats    390</span></span>
-<span><span class="co">#&gt; 14:                             Mollen    345</span></span>
-<span><span class="co">#&gt; 15:                        Steenmarter    302</span></span>
-<span><span class="co">#&gt; 16:                             Kippen    246</span></span>
-<span><span class="co">#&gt; 17:                         Vistrappen    227</span></span>
-<span><span class="co">#&gt; 18:                      Canadese Gans    153</span></span>
-<span><span class="co">#&gt; 19:                    Halsbandparkiet    126</span></span>
-<span><span class="co">#&gt; 20:               Japanse Duizendknoop    115</span></span>
-<span><span class="co">#&gt; 21:        Andere (soort vermelden):       77</span></span>
-<span><span class="co">#&gt; 22:                        Ganzenactie     76</span></span>
-<span><span class="co">#&gt; 23:                   Waterteunisbloem     75</span></span>
-<span><span class="co">#&gt; 24:                           Nijlgans     66</span></span>
-<span><span class="co">#&gt; 25:                    Neerhofdier(en)     64</span></span>
-<span><span class="co">#&gt; 26:                    Reuzenbalsemien     56</span></span>
-<span><span class="co">#&gt; 27:               Obstructie waterloop     52</span></span>
-<span><span class="co">#&gt; 28:                    Parelvederkruid     51</span></span>
-<span><span class="co">#&gt; 29:                           Konijnen     47</span></span>
-<span><span class="co">#&gt; 30:               gedomesticeerde gans     47</span></span>
-<span><span class="co">#&gt; 31:                   Grote Waternavel     32</span></span>
-<span><span class="co">#&gt; 32:           Mantsjoerese wilde rijst     19</span></span>
-<span><span class="co">#&gt; 33:         Aziatische hoornaar actie      17</span></span>
-<span><span class="co">#&gt; 34:                        Grauwe Gans     16</span></span>
-<span><span class="co">#&gt; 35:                     Sluikstorting      16</span></span>
+<span><span class="co">#&gt;  1:                Bruine rat bak/buis 124766</span></span>
+<span><span class="co">#&gt;  2:                         Bruine rat  33466</span></span>
+<span><span class="co">#&gt;  3:                          Muskusrat  27446</span></span>
+<span><span class="co">#&gt;  4:                Aziatische hoornaar  21290</span></span>
+<span><span class="co">#&gt;  5:                             Duiven   5848</span></span>
+<span><span class="co">#&gt;  6:                        Zwerfkatten   5624</span></span>
+<span><span class="co">#&gt;  7:                   Roosters/kleppen   5043</span></span>
+<span><span class="co">#&gt;  8:                             Muizen   1715</span></span>
+<span><span class="co">#&gt;  9:                   Reuzenberenklauw   1116</span></span>
+<span><span class="co">#&gt; 10:                           Meetpunt   1031</span></span>
+<span><span class="co">#&gt; 11:                Lettersierschildpad    904</span></span>
+<span><span class="co">#&gt; 12:                              Bever    760</span></span>
+<span><span class="co">#&gt; 13:                             Mollen    530</span></span>
+<span><span class="co">#&gt; 14:                       Voederplaats    520</span></span>
+<span><span class="co">#&gt; 15:                        Steenmarter    360</span></span>
+<span><span class="co">#&gt; 16:                             Kippen    298</span></span>
+<span><span class="co">#&gt; 17:                         Vistrappen    241</span></span>
+<span><span class="co">#&gt; 18:                    Halsbandparkiet    165</span></span>
+<span><span class="co">#&gt; 19:                      Canadese Gans    153</span></span>
+<span><span class="co">#&gt; 20:               Japanse Duizendknoop    147</span></span>
+<span><span class="co">#&gt; 21:                   Waterteunisbloem     90</span></span>
+<span><span class="co">#&gt; 22:               Obstructie waterloop     87</span></span>
+<span><span class="co">#&gt; 23:        Andere (soort vermelden):       83</span></span>
+<span><span class="co">#&gt; 24:                    Neerhofdier(en)     79</span></span>
+<span><span class="co">#&gt; 25:                        Ganzenactie     76</span></span>
+<span><span class="co">#&gt; 26:                           Nijlgans     72</span></span>
+<span><span class="co">#&gt; 27:                    Reuzenbalsemien     58</span></span>
+<span><span class="co">#&gt; 28:                           Konijnen     55</span></span>
+<span><span class="co">#&gt; 29:                    Parelvederkruid     51</span></span>
+<span><span class="co">#&gt; 30:               gedomesticeerde gans     48</span></span>
+<span><span class="co">#&gt; 31:                   Grote Waternavel     44</span></span>
+<span><span class="co">#&gt; 32:           Mantsjoerese wilde rijst     26</span></span>
+<span><span class="co">#&gt; 33:                     Sluikstorting      20</span></span>
+<span><span class="co">#&gt; 34:         Aziatische hoornaar actie      17</span></span>
+<span><span class="co">#&gt; 35:                        Grauwe Gans     16</span></span>
 <span><span class="co">#&gt; 36:                  Amerikaanse Nerts     14</span></span>
-<span><span class="co">#&gt; 37:                       Rivierkreeft     12</span></span>
-<span><span class="co">#&gt; 38:                          Kippen:        8</span></span>
-<span><span class="co">#&gt; 39:        structuurprobleem waterloop      8</span></span>
-<span><span class="co">#&gt; 40:                         Zwarte rat      7</span></span>
-<span><span class="co">#&gt; 41:            Amerikaanse Stierkikker      6</span></span>
-<span><span class="co">#&gt; 42:             Aziatische hoornaar:        6</span></span>
-<span><span class="co">#&gt; 43:                      Watercrassula      6</span></span>
-<span><span class="co">#&gt; 44:                 Exotische Eekhoorn      5</span></span>
-<span><span class="co">#&gt; 45:                 Neerhofdier(en):        5</span></span>
-<span><span class="co">#&gt; 46:                          Brandgans      4</span></span>
-<span><span class="co">#&gt; 47:                   slecht onderhoud      4</span></span>
-<span><span class="co">#&gt; 48:                       Leidse Plant      3</span></span>
-<span><span class="co">#&gt; 49:                           Watersla      3</span></span>
+<span><span class="co">#&gt; 37:            Amerikaanse Stierkikker     12</span></span>
+<span><span class="co">#&gt; 38:                       Rivierkreeft     12</span></span>
+<span><span class="co">#&gt; 39:                         Zwarte rat      9</span></span>
+<span><span class="co">#&gt; 40:                          Kippen:        8</span></span>
+<span><span class="co">#&gt; 41:                      Watercrassula      8</span></span>
+<span><span class="co">#&gt; 42:        structuurprobleem waterloop      8</span></span>
+<span><span class="co">#&gt; 43:                       Leidse Plant      7</span></span>
+<span><span class="co">#&gt; 44:             Aziatische hoornaar:        6</span></span>
+<span><span class="co">#&gt; 45:                 Exotische Eekhoorn      5</span></span>
+<span><span class="co">#&gt; 46:                 Neerhofdier(en):        5</span></span>
+<span><span class="co">#&gt; 47:                           Watersla      5</span></span>
+<span><span class="co">#&gt; 48:                          Brandgans      4</span></span>
+<span><span class="co">#&gt; 49:                   slecht onderhoud      4</span></span>
 <span><span class="co">#&gt; 50:                           Beverrat      2</span></span>
 <span><span class="co">#&gt; 51:                         Boerengans      2</span></span>
 <span><span class="co">#&gt; 52:                      Bruine rat:        2</span></span>
 <span><span class="co">#&gt; 53:           Andere (soort vermelden)      1</span></span>
 <span><span class="co">#&gt; 54:    Andere (soort vermelden):  Eend      1</span></span>
 <span><span class="co">#&gt; 55: Andere (soort vermelden):  Kraaien      1</span></span>
-<span><span class="co">#&gt;                                  Soort      n</span></span></code></pre></div>
+<span><span class="co">#&gt; 56:                    Moerasaronskelk      1</span></span>
+<span><span class="co">#&gt; 57:                               &lt;NA&gt;      1</span></span>
+<span><span class="co">#&gt;                                  Soort      n</span></span>
+<span><span class="co">#&gt;                                 &lt;char&gt;  &lt;int&gt;</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -257,7 +295,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
