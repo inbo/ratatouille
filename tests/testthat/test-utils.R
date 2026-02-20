@@ -44,3 +44,62 @@ test_that("get_api_domain() returns error on multiple sources", {
     class = "rlang_error"
   )
 })
+
+test_that("check_credentials() returns an error if credentials are unset", {
+  withr::with_envvar(
+    new = c("RATO_PWD" = ""),
+    code = {
+      expect_error(
+       check_credentials("rato"),
+       class = "rata_no_credentials_set"
+      )
+    }
+  )
+  
+  withr::with_envvar(
+    new = c("RATO_USER" = ""),
+    code = {
+      expect_error(
+        check_credentials("rato"),
+        class = "rata_no_credentials_set"
+      )
+    }
+  )
+  
+  withr::with_envvar(
+    new = c("WFL_USER" = ""),
+    code = {
+      expect_error(
+        check_credentials("wfl"),
+        class = "rata_no_credentials_set"
+      )
+    }
+  )
+  
+  withr::with_envvar(
+    new = c("WFL_PWD" = ""),
+    code = {
+      expect_error(
+        check_credentials("wfl"),
+        class = "rata_no_credentials_set"
+      )
+    }
+  )
+  
+  withr::with_envvar(
+    new = c("WLF_USER" = "a_username",
+            "WFL_PWD" = "a_password",
+            "RATO_USER" = "",
+            "RATO_PWD" = ""),
+    code = {
+      expect_true(
+        check_credentials("wfl")
+      )
+      
+      expect_error(
+        check_credentials("rato"),
+        class = "rata_no_credentials_set"
+      )
+    }
+  )
+})

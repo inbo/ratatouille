@@ -1,10 +1,8 @@
 #' Request an access token from the GIS API services
 #'
 #' The credentials are stored in your .Renviron file under `RATO_USER` and
-#' `RATO_PWD`. If you haven't stored them there already the function will prompt
-#' you for them and store them in these environmental variables. To reset any
-#' stored values,  pass emtpy strings `""` to either the `username` or
-#' `password` arguments.
+#' `RATO_PWD` and/or `WFL_USER` and `WFL_PWD`. To get credentials please contact
+#' the data sources directly.
 #'
 #' By default tokens expire every 5 minutes, and are cached until they expire.
 #' You can set a different expiry duration by changing the
@@ -19,6 +17,8 @@ get_token <- function(source = c("rato", "wfl")) {
   
   source <- rlang::arg_match(source)
 
+  # Check if credentials are set as environemental variables
+  check_credentials(source)
   # Build request for the API
   token_request <-
     get_api_domain(source) |>

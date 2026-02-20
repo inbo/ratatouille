@@ -80,12 +80,18 @@ get_api_basepath <- function(source = c("rato", "wfl"),
   )
 }
 
-
-
-check_credentials <- function(username, password){
-  # Check that username and password are strings if provided
-  assertthat::assert_that(assertthat::is.string(username))
-  assertthat::assert_that(assertthat::is.string(password))
+#' Check that credentials are set for a given source
+#'
+#' @inheritParams ratatouille
+#'
+#' @returns `TRUE` if credentials are set for a source, otherwise an error.
+#' @family utils
+#' @noRd
+check_credentials <- function(source = c("rato", "wfl")) {
+  source <- rlang::arg_match(source)
+ 
+  username <- Sys.getenv(toupper(paste0(source,"_USER")))
+  password <- Sys.getenv(toupper(paste0(source,"_PWD")))
   
   # Fail early if no credentials are set.
   if (password == "" || username == "") {
@@ -96,10 +102,11 @@ check_credentials <- function(username, password){
                 "environemental variables or via `.Renviron` as `RATO_USER`",
                 "and `RATO_PWD`.")
         ),
-      class = "rato_no_pwd_provided"
+      class = "rata_no_credentials_set"
     )
   }
   
+  return(TRUE)
 }
 
 #' Create .onLoad function to set Package options and memoisation behavior on
