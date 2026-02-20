@@ -7,7 +7,7 @@ local_mocked_bindings(
 )
 
 test_that("ratatouille supports fetching data from rato", {
-  skip_if_offline(host = "gwadmin.west-vlaanderen.be")
+  skip_if_offline(host = "gis.oost-vlaanderen.be")
   skip_if(Sys.getenv("RATO_USER") == "")
   skip_if(Sys.getenv("RATO_PWD") == "")
 

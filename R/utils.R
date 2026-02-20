@@ -59,8 +59,8 @@ get_api_domain <- function(source = c("rato", "wfl")) {
 #' @param source Character string of the source enum to look up the API path
 #'   for.
 #' @param context Character string of the context enum to look up the API path
-#'   for. Either
-#'
+#'   for. Either "server" (the service/server component used to place queries)
+#'   or "portal" (the portal component used for authentication).
 #' @returns Character string of the API base path corresponding to the specified
 #'   source and context.
 #'

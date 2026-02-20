@@ -16,7 +16,7 @@
 #' @export
 #'
 #' @examplesIf interactive()
-#' ratatouille()
+#' ratatouille(source = "rato")
 ratatouille <- function(source = c("rato", "wfl"), ...) {
   check_source(source)
 
