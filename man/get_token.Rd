@@ -7,19 +7,17 @@
 get_token(source = c("rato", "wfl"))
 }
 \arguments{
-\item{source}{Character string indicating the source of the data to fetch. By
-default RATO data is fetched. \code{rato} will fetch RATO data. \code{wvl} will fetch
-data from the province of West Flanders.}
+\item{source}{(Required) Character string indicating the source of the data
+to fetch. Currently supported data sources:\code{rato} will fetch RATO data and
+\code{wvl} will fetch data from the province of West Flanders.}
 }
 \value{
 Character. An access token for future API calls.
 }
 \description{
 The credentials are stored in your .Renviron file under \code{RATO_USER} and
-\code{RATO_PWD}. If you haven't stored them there already the function will prompt
-you for them and store them in these environmental variables. To reset any
-stored values,  pass emtpy strings \code{""} to either the \code{username} or
-\code{password} arguments.
+\code{RATO_PWD} and/or \code{WFL_USER} and \code{WFL_PWD}. To get credentials please contact
+the data sources directly.
 }
 \details{
 By default tokens expire every 5 minutes, and are cached until they expire.

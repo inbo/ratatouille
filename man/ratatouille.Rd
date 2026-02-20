@@ -7,9 +7,9 @@
 ratatouille(source = c("rato", "wfl"), ...)
 }
 \arguments{
-\item{source}{Character string indicating the source of the data to fetch. By
-default RATO data is fetched. \code{rato} will fetch RATO data. \code{wvl} will fetch
-data from the province of West Flanders.}
+\item{source}{(Required) Character string indicating the source of the data
+to fetch. Currently supported data sources:\code{rato} will fetch RATO data and
+\code{wvl} will fetch data from the province of West Flanders.}
 
 \item{...}{
   Arguments passed on to \code{\link[=get_objects]{get_objects}}
@@ -27,7 +27,7 @@ selected source.
 }
 \description{
 This function fetches the raw invasive species data from the specified
-source. It supports fetching data from RATO (the default) and other sources
+source. It supports fetching data from RATO and other sources
 as they become available. All records from a source are returned, to fetch
 specific records see \code{\link[=get_objects]{get_objects()}}.
 }

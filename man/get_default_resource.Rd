@@ -4,11 +4,11 @@
 \alias{get_default_resource}
 \title{Get default resource path for a given source}
 \usage{
-get_default_resource(source = c("rato", "wfl"))
+get_default_resource(source = NULL)
 }
 \arguments{
 \item{source}{Character string of the source to look up the default
-resource for.}
+resource for. Either "rato" or "wfl".}
 }
 \value{
 Character string of the default resource path corresponding to the

@@ -10,9 +10,9 @@ list_object_ids(
 )
 }
 \arguments{
-\item{source}{Character string indicating the source of the data to fetch. By
-default RATO data is fetched. \code{rato} will fetch RATO data. \code{wvl} will fetch
-data from the province of West Flanders.}
+\item{source}{(Required) Character string indicating the source of the data
+to fetch. Currently supported data sources:\code{rato} will fetch RATO data and
+\code{wvl} will fetch data from the province of West Flanders.}
 }
 \value{
 Integer vector of (all) object ids.

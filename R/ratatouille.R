@@ -1,12 +1,12 @@
 #' Fetch raw invasive species data
 #'
 #' This function fetches the raw invasive species data from the specified
-#' source. It supports fetching data from RATO (the default) and other sources
+#' source. It supports fetching data from RATO and other sources
 #' as they become available. All records from a source are returned, to fetch
 #' specific records see [get_objects()].
 #'
 #' @param source (Required) Character string indicating the source of the data
-#'   to fetch. By default RATO data is fetched. `rato` will fetch RATO data.
+#'   to fetch. Currently supported data sources:`rato` will fetch RATO data and
 #'   `wvl` will fetch data from the province of West Flanders.
 #' @inheritParams get_objects
 #' @inheritDotParams get_objects batch_size

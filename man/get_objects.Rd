@@ -16,6 +16,10 @@ get_objects(
 you to fetch a specific database record. By default, all records are
 returned.}
 
+\item{source}{(Required) Character string indicating the source of the data
+to fetch. Currently supported data sources:\code{rato} will fetch RATO data and
+\code{wvl} will fetch data from the province of West Flanders.}
+
 \item{batch_size}{Number of objects to request per API call, default is 100.
 Setting this to a lower number will result in more API calls, but will also
 reduce the risk of timeouts or errors when requesting large datasets. When
