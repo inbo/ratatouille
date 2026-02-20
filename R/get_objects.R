@@ -9,6 +9,7 @@
 #' To query an ArcGIS REST API you need credentials. Without credentials
 #' accessing the raw data is not possible.
 #'
+#' @inheritParams ratatouille
 #' @param object_ids Vector of object_ids for a specific resource, these allow
 #'   you to fetch a specific database record. By default, all records are
 #'   returned.
