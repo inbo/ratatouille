@@ -29,6 +29,8 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       RATO_USER: ${{ secrets.RATO_USER}}
       RATO_PWD: ${{ secrets.RATO_PWD}}
+      WFL_USER: ${{ secrets.WFL_USER}}
+      WFL_PWD: ${{ secrets.WFL_PWD}}
       R_KEEP_PKG_SOURCE: yes
 
     steps:
