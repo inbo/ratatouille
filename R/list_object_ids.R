@@ -17,6 +17,7 @@
 #'   any follow up calls).
 #'
 #' @inheritParams ratatouille
+#' @inheritParams get_objects
 #'
 #' @return Integer vector of (all) object ids.
 #' @export
