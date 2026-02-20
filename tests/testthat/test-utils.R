@@ -41,7 +41,7 @@ test_that("get_api_domain() returns correct API base urls", {
 test_that("get_api_domain() returns error on multiple sources", {
   expect_error(
     get_api_domain(c("rato", "wfl")),
-    class = "rlang_error"
+    class = "rata_multiple_sources"
   )
 })
 
