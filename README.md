@@ -70,11 +70,11 @@ The resulting object looks like this (but has many more columns):
 
 | Soort | Materiaal_Vast | Materiaal_Consumptie | Laatst_Bewerkt_Datum |
 |:---|:---|:---|:---|
-| Duiven | Actieve kooi (aantal) = 2; | NA | 2024-12-23 08:19:56 |
-| Bruine rat bak/buis | NA | Broma blok (aantal) = 1; | 2022-12-14 11:29:18 |
-| Bruine rat bak/buis | NA | Difa blok (aantal) = 1; | 2023-07-07 14:00:29 |
-| Bruine rat bak/buis | NA | Difa blok (aantal) = 1; | 2024-01-02 13:52:28 |
-| Bruine rat bak/buis | NA | Difa blok (aantal) = 2; | 2024-01-25 09:04:54 |
+| Bruine rat |  | Harmonix (aantal) = 4; | 2024-05-15 08:32:46 |
+| Bruine rat bak/buis | NA | Geen gif bijgevuld (ok) = 1; | 2025-06-12 15:20:39 |
+| Duiven |  | NA | 2022-02-28 15:34:50 |
+| Bruine rat bak/buis | NA | Geen gif bijgevuld (ok) = 1; | 2023-06-30 13:44:54 |
+| Aziatische hoornaar | Poederverstuiver = 1; | Permas-D = 1; | 2025-07-15 09:44:00 |
 
 For this example only a few fields are shown because there is the
 possibility of personal data in other fields.
@@ -127,9 +127,9 @@ time.
   dplyr::count(Soort, sort = TRUE)
 #>                                  Soort      n
 #>                                 <char>  <int>
-#>  1:                Bruine rat bak/buis 124743
-#>  2:                         Bruine rat  33459
-#>  3:                          Muskusrat  27444
+#>  1:                Bruine rat bak/buis 124766
+#>  2:                         Bruine rat  33466
+#>  3:                          Muskusrat  27446
 #>  4:                Aziatische hoornaar  21290
 #>  5:                             Duiven   5848
 #>  6:                        Zwerfkatten   5624
@@ -138,7 +138,7 @@ time.
 #>  9:                   Reuzenberenklauw   1116
 #> 10:                           Meetpunt   1031
 #> 11:                Lettersierschildpad    904
-#> 12:                              Bever    759
+#> 12:                              Bever    760
 #> 13:                             Mollen    530
 #> 14:                       Voederplaats    520
 #> 15:                        Steenmarter    360

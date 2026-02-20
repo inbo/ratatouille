@@ -56,14 +56,14 @@ pak::pak("inbo/ratatouille")
 
 Once you have your credentials stored, getting raw data from RATO is as easy as:
 
-```{r, example of main function, message = FALSE}
+```{r example of main function, message = FALSE}
 library(ratatouille)
 rato_data <- ratatouille(source = "rato")
 ```
 
 The resulting object looks like this (but has many more columns):
 
-```{r, slice raw output, echo = FALSE}
+```{r slice raw output, echo = FALSE}
 dplyr::slice_sample(rato_data, n = 5) |>
   dplyr::select(dplyr::all_of(
     c(
@@ -82,7 +82,7 @@ For this example only a few fields are shown because there is the possibility of
 
 These are all columns available for the `rato` data source:
 
-```{r, list columns ,echo = FALSE, message = FALSE}
+```{r list columns ,echo = FALSE, message = FALSE}
 dplyr::slice(rato_data, 0) |>
   dplyr::glimpse()
 ```
@@ -91,7 +91,7 @@ dplyr::slice(rato_data, 0) |>
 
 This is raw data, some cleaning will be required. Dutch names and GBIF taxon ids are provided, but these last are often unchecked and may contain errors. Note that you can only download data for one source at a time.
 
-```{r, count species, message = FALSE}
+```{r count species, message = FALSE}
  purrr::map(c("wfl", "rato"), ~ratatouille(source = .x)) |>
   purrr::list_rbind() |>
   dplyr::count(Soort, sort = TRUE)
