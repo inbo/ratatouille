@@ -2,17 +2,19 @@
 % Please edit documentation in R/get_objects.R
 \name{get_objects}
 \alias{get_objects}
-\title{Get objects from the RATO ArcGIS Enterprise environment via the API}
+\title{Get objects from an ArcGIS Enterprise environment via the REST API}
 \usage{
 get_objects(
   object_ids = list_object_ids(),
   source = c("rato", "wfl"),
+  resource = get_default_resource(source),
   batch_size = 100
 )
 }
 \arguments{
-\item{object_ids}{Vector of RATO object_ids, these allow you to fetch a
-specific database record. By default, all records are returned.}
+\item{object_ids}{Vector of object_ids for a specific resource, these allow
+you to fetch a specific database record. By default, all records are
+returned.}
 
 \item{batch_size}{Number of objects to request per API call, default is 100.
 Setting this to a lower number will result in more API calls, but will also
@@ -24,13 +26,13 @@ dataset is too large.}
 tibble of requested objects.
 }
 \description{
-This function retrieves objects from the RATO ArcGIS environment based on the
+This function retrieves objects from an ArcGIS environment based on the
 object_id. It is capable of retrieving a large amount of objects in a single
 function call. As to minimize errors it will  fetch \verb{batch size} number of
 objects per request, and will operate in parallel: for a maximum of 5000
 requests per 60 seconds, having at most 10 requests open at a time.
 }
 \details{
-To query the RATO ArcGIS REST API you need credentials. Without credentials
+To query an ArcGIS REST API you need credentials. Without credentials
 accessing the raw data is not possible.
 }
