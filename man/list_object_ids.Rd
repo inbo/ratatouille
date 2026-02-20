@@ -12,7 +12,7 @@ to fetch. Currently supported data sources: \code{rato} will fetch RATO data and
 \code{wfl} will fetch data from the province of West Flanders.}
 
 \item{resource}{The resource to query. Defaults to the default resource for
-the given source,}
+the given source.}
 }
 \value{
 Integer vector of (all) object ids.

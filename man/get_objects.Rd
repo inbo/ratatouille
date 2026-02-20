@@ -20,7 +20,7 @@ to fetch. Currently supported data sources: \code{rato} will fetch RATO data and
 \code{wfl} will fetch data from the province of West Flanders.}
 
 \item{resource}{The resource to query. Defaults to the default resource for
-the given source,}
+the given source.}
 
 \item{batch_size}{Number of objects to request per API call, default is 100.
 Setting this to a lower number will result in more API calls, but will also
