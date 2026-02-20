@@ -9,7 +9,7 @@ ratatouille(source = c("rato", "wfl"), ...)
 \arguments{
 \item{source}{(Required) Character string indicating the source of the data
 to fetch. Currently supported data sources:\code{rato} will fetch RATO data and
-\code{wvl} will fetch data from the province of West Flanders.}
+\code{wfl} will fetch data from the province of West Flanders.}
 
 \item{...}{
   Arguments passed on to \code{\link[=get_objects]{get_objects}}
