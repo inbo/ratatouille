@@ -87,7 +87,7 @@ test_that("check_credentials() returns an error if credentials are unset", {
   )
   
   withr::with_envvar(
-    new = c("WLF_USER" = "a_username",
+    new = c("WFL_USER" = "a_username",
             "WFL_PWD" = "a_password",
             "RATO_USER" = "",
             "RATO_PWD" = ""),
