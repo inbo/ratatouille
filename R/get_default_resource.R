@@ -4,15 +4,15 @@
 #' returns a default resource to query.
 #'
 #' @param source Character string of the source to look up the default
-#'   resource for.
+#'   resource for. Either "rato" or "wfl".
 #'
 #' @returns Character string of the default resource path corresponding to the
 #'   specified source.
 #' @export
 #' @examples
 #' get_default_resource("rato")
-get_default_resource <- function(source = c("rato", "wfl")) {
-  source <- rlang::arg_match(source)
+get_default_resource <- function(source = NULL) {
+  check_source(source)
   
   dplyr::recode_values(
     source,
