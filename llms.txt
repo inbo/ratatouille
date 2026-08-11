@@ -20,6 +20,7 @@ easy way to edit this file is by using a function from [the usethis
 package](https://usethis.r-lib.org/).
 
 ``` r
+
 # install.packages("usethis")
 usethis::edit_r_environ()
 ```
@@ -41,6 +42,7 @@ You can install the development version of ratatouille from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("inbo/ratatouille")
 ```
@@ -51,19 +53,20 @@ Once you have your credentials stored, getting raw data from RATO is as
 easy as:
 
 ``` r
+
 library(ratatouille)
 rato_data <- ratatouille(source = "rato")
 ```
 
 The resulting object looks like this (but has many more columns):
 
-| Soort               | Materiaal_Vast        | Materiaal_Consumptie         | Laatst_Bewerkt_Datum |
-|:--------------------|:----------------------|:-----------------------------|:---------------------|
-| Bruine rat          |                       | Harmonix (aantal) = 4;       | 2024-05-15 08:32:46  |
-| Bruine rat bak/buis | NA                    | Geen gif bijgevuld (ok) = 1; | 2025-06-12 15:20:39  |
-| Duiven              |                       | NA                           | 2022-02-28 15:34:50  |
-| Bruine rat bak/buis | NA                    | Geen gif bijgevuld (ok) = 1; | 2023-06-30 13:44:54  |
-| Aziatische hoornaar | Poederverstuiver = 1; | Permas-D = 1;                | 2025-07-15 09:44:00  |
+| Soort | Materiaal_Vast | Materiaal_Consumptie | Laatst_Bewerkt_Datum |
+|:---|:---|:---|:---|
+| Bruine rat |  | Harmonix (aantal) = 4; | 2024-05-15 08:32:46 |
+| Bruine rat bak/buis | NA | Geen gif bijgevuld (ok) = 1; | 2025-06-12 15:20:39 |
+| Duiven |  | NA | 2022-02-28 15:34:50 |
+| Bruine rat bak/buis | NA | Geen gif bijgevuld (ok) = 1; | 2023-06-30 13:44:54 |
+| Aziatische hoornaar | Poederverstuiver = 1; | Permas-D = 1; | 2025-07-15 09:44:00 |
 
 For this example only a few fields are shown because there is the
 possibility of personal data in other fields.
@@ -113,6 +116,7 @@ contain errors. Note that you can only download data for one source at a
 time.
 
 ``` r
+
  purrr::map(c("wfl", "rato"), ~ratatouille(source = .x)) |>
   purrr::list_rbind() |>
   dplyr::count(Soort, sort = TRUE)
